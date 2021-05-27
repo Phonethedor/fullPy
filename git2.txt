@@ -1,0 +1,1475 @@
+PS C:\Users\Alvaro\Desktop\FsPython> git --man
+unknown option: --man
+usage: git [--version] [--help] [-C <path>] [-c <name>=<value>]
+           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]
+           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--bare]
+           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]
+           [--super-prefix=<path>] [--config-env=<name>=<envvar>]
+           <command> [<args>]
+
+           gittutorial(7) Manual Page
+NAME
+gittutorial - A tutorial introduction to Git
+
+SYNOPSIS
+git *
+DESCRIPTION
+This tutorial explains how to import a new project into Git, make changes to it, and share changes with other developers.
+
+If you are instead primarily interested in using Git to fetch a project, for example, to test the latest version, you may prefer to start with the first two chapters of The Git User’s Manual.
+
+First, note that you can get documentation for a command such as git log --graph with:
+
+$ man git-log
+or:
+
+$ git help log
+With the latter, you can use the manual viewer of your choice; see git-help(1) for more information.
+
+It is a good idea to introduce yourself to Git with your name and public email address before doing any operation. The easiest way to do so is:
+
+$ git config --global user.name "Your Name Comes Here"
+$ git config --global user.email you@yourdomain.example.com
+Importing a new project
+Assume you have a tarball project.tar.gz with your initial work. You can place it under Git revision control as follows.
+
+$ tar xzf project.tar.gz
+$ cd project
+$ git init
+Git will reply
+
+Initialized empty Git repository in .git/
+You’ve now initialized the working directory—​you may notice a new directory created, named ".git".
+
+Next, tell Git to take a snapshot of the contents of all files under the current directory (note the .), with git add:
+
+$ git add .
+This snapshot is now stored in a temporary staging area which Git calls the "index". You can permanently store the contents of the index in the repository with git commit:
+
+$ git commit
+This will prompt you for a commit message. You’ve now stored the first version of your project in Git.
+
+Making changes
+Modify some files, then add their updated contents to the index:
+
+$ git add file1 file2 file3
+You are now ready to commit. You can see what is about to be committed using git diff with the --cached option:
+
+$ git diff --cached
+(Without --cached, git diff will show you any changes that you’ve made but not yet added to the index.) You can also get a brief summary of the situation with git status:
+
+$ git status
+On branch master
+Changes to be committed:
+Your branch is up to date with 'origin/master'.
+  (use "git restore --staged <file>..." to unstage)
+
+        modified:   file1
+        modified:   file2
+        modified:   file3
+If you need to make any further adjustments, do so now, and then add any newly modified content to the index. Finally, commit your changes with:
+
+$ git commit
+This will again prompt you for a message describing the change, and then record a new version of the project.
+
+Alternatively, instead of running git add beforehand, you can use
+
+$ git commit -a
+which will automatically notice any modified (but not new) files, add them to the index, and commit, all in one step.
+
+A note on commit messages: Though not required, it’s a good idea to begin the commit message with a single short (less than 50 character) line summarizing the change, followed by a blank line and then a more thorough description. The text up to the first blank line in a commit message is treated as the commit title, and that title is used throughout Git. For example, git-format-patch(1) turns a commit into email, and it uses the title on the Subject line and the rest of the commit in the body.
+
+Git tracks content not files
+Many revision control systems provide an add command that tells the system to start tracking changes to a new file. Git’s add command does something simpler and more powerful: git add is used both for new and newly modified files, and in both cases it takes a snapshot of the given files and stages that content in the index, ready for inclusion in the next commit.
+
+Viewing project history
+At any point you can view the history of your changes using
+
+$ git log
+If you also want to see complete diffs at each step, use
+
+$ git log -p
+Often the overview of the change is useful to get a feel of each step
+
+$ git log --stat --summary
+Managing branches
+A single Git repository can maintain multiple branches of development. To create a new branch named "experimental", use
+
+$ git branch experimental
+If you now run
+
+$ git branch
+you’ll get a list of all existing branches:
+
+  experimental
+* master
+The "experimental" branch is the one you just created, and the "master" branch is a default branch that was created for you automatically. The asterisk marks the branch you are currently on; type
+
+$ git switch experimental
+to switch to the experimental branch. Now edit a file, commit the change, and switch back to the master branch:
+
+(edit file)
+$ git commit -a
+$ git switch master
+Check that the change you made is no longer visible, since it was made on the experimental branch and you’re back on the master branch.
+
+You can make a different change on the master branch:
+
+(edit file)
+$ git commit -a
+at this point the two branches have diverged, with different changes made in each. To merge the changes made in experimental into master, run
+
+$ git merge experimental
+If the changes don’t conflict, you’re done. If there are conflicts, markers will be left in the problematic files showing the conflict;
+
+$ git diff
+will show this. Once you’ve edited the files to resolve the conflicts,
+
+$ git commit -a
+will commit the result of the merge. Finally,
+
+$ gitk
+will show a nice graphical representation of the resulting history.
+
+At this point you could delete the experimental branch with
+
+$ git branch -d experimental
+This command ensures that the changes in the experimental branch are already in the current branch.
+
+If you develop on a branch crazy-idea, then regret it, you can always delete the branch with
+
+$ git branch -D crazy-idea
+Branches are cheap and easy, so this is a good way to try something out.
+
+Using Git for collaboration
+Suppose that Alice has started a new project with a Git repository in /home/alice/project, and that Bob, who has a home directory on the same machine, wants to contribute.
+
+Bob begins with:
+
+bob$ git clone /home/alice/project myrepo
+This creates a new directory "myrepo" containing a clone of Alice’s repository. The clone is on an equal footing with the original project, possessing its own copy of the original project’s history.
+
+Bob then makes some changes and commits them:
+
+(edit files)
+bob$ git commit -a
+(repeat as necessary)
+When he’s ready, he tells Alice to pull changes from the repository at /home/bob/myrepo. She does this with:
+
+alice$ cd /home/alice/project
+alice$ git pull /home/bob/myrepo master
+This merges the changes from Bob’s "master" branch into Alice’s current branch. If Alice has made her own changes in the meantime, then she may need to manually fix any conflicts.
+
+The "pull" command thus performs two operations: it fetches changes from a remote branch, then merges them into the current branch.
+
+Note that in general, Alice would want her local changes committed before initiating this "pull". If Bob’s work conflicts with what Alice did since their histories forked, Alice will use her working tree and the index to resolve conflicts, and existing local changes will interfere with the conflict resolution process (Git will still perform the fetch but will refuse to merge --- Alice will have to get rid of her local changes in some way and pull again when this happens).
+
+Alice can peek at what Bob did without merging first, using the "fetch" command; this allows Alice to inspect what Bob did, using a special symbol "FETCH_HEAD", in order to determine if he has anything worth pulling, like this:
+
+alice$ git fetch /home/bob/myrepo master
+alice$ git log -p HEAD..FETCH_HEAD
+This operation is safe even if Alice has uncommitted local changes. The range notation "HEAD..FETCH_HEAD" means "show everything that is reachable from the FETCH_HEAD but exclude anything that is reachable from HEAD". Alice already knows everything that leads to her current state (HEAD), and reviews what Bob has in his state (FETCH_HEAD) that she has not seen with this command.
+
+If Alice wants to visualize what Bob did since their histories forked she can issue the following command:
+
+$ gitk HEAD..FETCH_HEAD
+This uses the same two-dot range notation we saw earlier with git log.
+
+Alice may want to view what both of them did since they forked. She can use three-dot form instead of the two-dot form:
+
+$ gitk HEAD...FETCH_HEAD
+This means "show everything that is reachable from either one, but exclude anything that is reachable from both of them".
+
+Please note that these range notation can be used with both gitk and "git log".
+
+After inspecting what Bob did, if there is nothing urgent, Alice may decide to continue working without pulling from Bob. If Bob’s history does have something Alice would immediately need, Alice may choose to stash her work-in-progress first, do a "pull", and then finally unstash her work-in-progress on top of the resulting history.
+
+When you are working in a small closely knit group, it is not unusual to interact with the same repository over and over again. By defining remote repository shorthand, you can make it easier:
+
+alice$ git remote add bob /home/bob/myrepo
+With this, Alice can perform the first part of the "pull" operation alone using the git fetch command without merging them with her own branch, using:
+
+alice$ git fetch bob
+Unlike the longhand form, when Alice fetches from Bob using a remote repository shorthand set up with git remote, what was fetched is stored in a remote-tracking branch, in this case bob/master. So after this:
+
+alice$ git log -p master..bob/master
+shows a list of all the changes that Bob made since he branched from Alice’s master branch.
+
+After examining those changes, Alice could merge the changes into her master branch:
+
+alice$ git merge bob/master
+This merge can also be done by pulling from her own remote-tracking branch, like this:
+
+alice$ git pull . remotes/bob/master
+Note that git pull always merges into the current branch, regardless of what else is given on the command line.
+
+Later, Bob can update his repo with Alice’s latest changes using
+
+bob$ git pull
+Note that he doesn’t need to give the path to Alice’s repository; when Bob cloned Alice’s repository, Git stored the location of her repository in the repository configuration, and that location is used for pulls:
+
+bob$ git config --get remote.origin.url
+/home/alice/project
+(The complete configuration created by git clone is visible using git config -l, and the git-config(1) man page explains the meaning of each option.)
+
+Git also keeps a pristine copy of Alice’s master branch under the name "origin/master":
+
+bob$ git branch -r
+  origin/master
+If Bob later decides to work from a different host, he can still perform clones and pulls using the ssh protocol:
+
+bob$ git clone alice.org:/home/alice/project myrepo
+Alternatively, Git has a native protocol, or can use http; see git-pull(1) for details.
+
+Git can also be used in a CVS-like mode, with a central repository that various users push changes to; see git-push(1) and gitcvs-migration(7).
+
+Exploring history
+Git history is represented as a series of interrelated commits. We have already seen that the git log command can list those commits. Note that first line of each git log entry also gives a name for the commit:
+
+$ git log
+commit c82a22c39cbc32576f64f5c6b3f24b99ea8149c7
+Author: Junio C Hamano <junkio@cox.net>
+Date:   Tue May 16 17:18:22 2006 -0700
+
+    merge-base: Clarify the comments on post processing.
+We can give this name to git show to see the details about this commit.
+
+$ git show c82a22c39cbc32576f64f5c6b3f24b99ea8149c7
+But there are other ways to refer to commits. You can use any initial part of the name that is long enough to uniquely identify the commit:
+
+$ git show c82a22c39c   # the first few characters of the name are
+                        # usually enough
+$ git show HEAD         # the tip of the current branch
+$ git show experimental # the tip of the "experimental" branch
+Every commit usually has one "parent" commit which points to the previous state of the project:
+
+$ git show HEAD^  # to see the parent of HEAD
+$ git show HEAD^^ # to see the grandparent of HEAD
+$ git show HEAD~4 # to see the great-great grandparent of HEAD
+Note that merge commits may have more than one parent:
+
+$ git show HEAD^1 # show the first parent of HEAD (same as HEAD^)
+$ git show HEAD^2 # show the second parent of HEAD
+You can also give commits names of your own; after running
+
+$ git tag v2.5 1b2e1d63ff
+you can refer to 1b2e1d63ff by the name "v2.5". If you intend to share this name with other people (for example, to identify a release version), you should create a "tag" object, and perhaps sign it; see git-tag(1) for details.
+
+Any Git command that needs to know a commit can take any of these names. For example:
+
+$ git diff v2.5 HEAD     # compare the current HEAD to v2.5
+$ git branch stable v2.5 # start a new branch named "stable" based
+                         # at v2.5
+$ git reset --hard HEAD^ # reset your current branch and working
+                         # directory to its state at HEAD^
+Be careful with that last command: in addition to losing any changes in the working directory, it will also remove all later commits from this branch. If this branch is the only branch containing those commits, they will be lost. Also, don’t use git reset on a publicly-visible branch that other developers pull from, as it will force needless merges on other developers to clean up the history. If you need to undo changes that you have pushed, use git revert instead.
+
+The git grep command can search for strings in any version of your project, so
+
+$ git grep "hello" v2.5
+searches for all occurrences of "hello" in v2.5.
+
+If you leave out the commit name, git grep will search any of the files it manages in your current directory. So
+
+$ git grep "hello"
+is a quick way to search just the files that are tracked by Git.
+
+Many Git commands also take sets of commits, which can be specified in a number of ways. Here are some examples with git log:
+
+$ git log v2.5..v2.6            # commits between v2.5 and v2.6
+$ git log v2.5..                # commits since v2.5
+$ git log --since="2 weeks ago" # commits from the last 2 weeks
+$ git log v2.5.. Makefile       # commits since v2.5 which modify
+                                # Makefile
+You can also give git log a "range" of commits where the first is not necessarily an ancestor of the second; for example, if the tips of the branches "stable" and "master" diverged from a common commit some time ago, then
+
+$ git log stable..master
+will list commits made in the master branch but not in the stable branch, while
+
+$ git log master..stable
+will show the list of commits made on the stable branch but not the master branch.
+
+The git log command has a weakness: it must present commits in a list. When the history has lines of development that diverged and then merged back together, the order in which git log presents those commits is meaningless.
+
+Most projects with multiple contributors (such as the Linux kernel, or Git itself) have frequent merges, and gitk does a better job of visualizing their history. For example,
+
+$ gitk --since="2 weeks ago" drivers/
+allows you to browse any commits from the last 2 weeks of commits that modified files under the "drivers" directory. (Note: you can adjust gitk’s fonts by holding down the control key while pressing "-" or "+".)
+
+Finally, most commands that take filenames will optionally allow you to precede any filename by a commit, to specify a particular version of the file:
+
+$ git diff v2.5:Makefile HEAD:Makefile.in
+You can also use git show to see any such file:
+
+$ git show v2.5:Makefile
+Next Steps
+This tutorial should be enough to perform basic distributed revision control for your projects. However, to fully understand the depth and power of Git you need to understand two simple ideas on which it is based:
+
+The object database is the rather elegant system used to store the history of your project—​files, directories, and commits.
+
+The index file is a cache of the state of a directory tree, used to create commits, check out working directories, and hold the various trees involved in a merge.
+
+Part two of this tutorial explains the object database, the index file, and a few other odds and ends that you’ll need to make the most of Git. You can find it at gittutorial-2(7).
+
+If you don’t want to continue with that right away, a few other digressions that may be interesting at this point are:
+
+git-format-patch(1), git-am(1): These convert series of git commits into emailed patches, and vice versa, useful for projects such as the Linux kernel which rely heavily on emailed patches.
+
+git-bisect(1): When there is a regression in your project, one way to track down the bug is by searching through the history to find the exact commit that’s to blame. Git bisect can help you perform a binary search for that commit. It is smart enough to perform a close-to-optimal search even in the case of complex non-linear history with lots of merged branches.
+
+gitworkflows(7): Gives an overview of recommended workflows.
+
+giteveryday(7): Everyday Git with 20 Commands Or So.
+
+gitcvs-migration(7): Git for CVS users.
+
+git-add(1) Manual Page
+NAME
+git-add - Add file contents to the index
+
+SYNOPSIS
+git add [--verbose | -v] [--dry-run | -n] [--force | -f] [--interactive | -i] [--patch | -p]
+          [--edit | -e] [--[no-]all | --[no-]ignore-removal | [--update | -u]]
+          [--intent-to-add | -N] [--refresh] [--ignore-errors] [--ignore-missing] [--renormalize]
+          [--chmod=(+|-)x] [--pathspec-from-file=<file> [--pathspec-file-nul]]
+          [--] [<pathspec>…​]
+DESCRIPTION
+This command updates the index using the current content found in the working tree, to prepare the content staged for the next commit. It typically adds the current content of existing paths as a whole, but with some options it can also be used to add content with only part of the changes made to the working tree files applied, or remove paths that do not exist in the working tree anymore.
+
+The "index" holds a snapshot of the content of the working tree, and it is this snapshot that is taken as the contents of the next commit. Thus after making any changes to the working tree, and before running the commit command, you must use the add command to add any new or modified files to the index.
+
+This command can be performed multiple times before a commit. It only adds the content of the specified file(s) at the time the add command is run; if you want subsequent changes included in the next commit, then you must run git add again to add the new content to the index.
+
+The git status command can be used to obtain a summary of which files have changes that are staged for the next commit.
+
+The git add command will not add ignored files by default. If any ignored files were explicitly specified on the command line, git add will fail with a list of ignored files. Ignored files reached by directory recursion or filename globbing performed by Git (quote your globs before the shell) will be silently ignored. The git add command can be used to add ignored files with the -f (force) option.
+
+Please see git-commit(1) for alternative ways to add content to a commit.
+
+OPTIONS
+<pathspec>…​
+Files to add content from. Fileglobs (e.g. *.c) can be given to add all matching files. Also a leading directory name (e.g. dir to add dir/file1 and dir/file2) can be given to update the index to match the current state of the directory as a whole (e.g. specifying dir will record not just a file dir/file1 modified in the working tree, a file dir/file2 added to the working tree, but also a file dir/file3 removed from the working tree). Note that older versions of Git used to ignore removed files; use --no-all option if you want to add modified or new files but ignore removed ones.
+
+For more details about the <pathspec> syntax, see the pathspec entry in gitglossary(7).
+
+-n
+--dry-run
+Don’t actually add the file(s), just show if they exist and/or will be ignored.
+
+-v
+--verbose
+Be verbose.
+
+-f
+--force
+Allow adding otherwise ignored files.
+
+-i
+--interactive
+Add modified contents in the working tree interactively to the index. Optional path arguments may be supplied to limit operation to a subset of the working tree. See “Interactive mode” for details.
+
+-p
+--patch
+Interactively choose hunks of patch between the index and the work tree and add them to the index. This gives the user a chance to review the difference before adding modified contents to the index.
+
+This effectively runs add --interactive, but bypasses the initial command menu and directly jumps to the patch subcommand. See “Interactive mode” for details.
+
+-e
+--edit
+Open the diff vs. the index in an editor and let the user edit it. After the editor was closed, adjust the hunk headers and apply the patch to the index.
+
+The intent of this option is to pick and choose lines of the patch to apply, or even to modify the contents of lines to be staged. This can be quicker and more flexible than using the interactive hunk selector. However, it is easy to confuse oneself and create a patch that does not apply to the index. See EDITING PATCHES below.
+
+-u
+--update
+Update the index just where it already has an entry matching <pathspec>. This removes as well as modifies index entries to match the working tree, but adds no new files.
+
+If no <pathspec> is given when -u option is used, all tracked files in the entire working tree are updated (old versions of Git used to limit the update to the current directory and its subdirectories).
+
+-A
+--all
+--no-ignore-removal
+Update the index not only where the working tree has a file matching <pathspec> but also where the index already has an entry. This adds, modifies, and removes index entries to match the working tree.
+
+If no <pathspec> is given when -A option is used, all files in the entire working tree are updated (old versions of Git used to limit the update to the current directory and its subdirectories).
+
+--no-all
+--ignore-removal
+Update the index by adding new files that are unknown to the index and files modified in the working tree, but ignore files that have been removed from the working tree. This option is a no-op when no <pathspec> is used.
+
+This option is primarily to help users who are used to older versions of Git, whose "git add <pathspec>…​" was a synonym for "git add --no-all <pathspec>…​", i.e. ignored removed files.
+
+-N
+--intent-to-add
+Record only the fact that the path will be added later. An entry for the path is placed in the index with no content. This is useful for, among other things, showing the unstaged content of such files with git diff and committing them with git commit -a.
+
+--refresh
+Don’t add the file(s), but only refresh their stat() information in the index.
+
+--ignore-errors
+If some files could not be added because of errors indexing them, do not abort the operation, but continue adding the others. The command shall still exit with non-zero status. The configuration variable add.ignoreErrors can be set to true to make this the default behaviour.
+
+--ignore-missing
+This option can only be used together with --dry-run. By using this option the user can check if any of the given files would be ignored, no matter if they are already present in the work tree or not.
+
+--no-warn-embedded-repo
+By default, git add will warn when adding an embedded repository to the index without using git submodule add to create an entry in .gitmodules. This option will suppress the warning (e.g., if you are manually performing operations on submodules).
+
+--renormalize
+Apply the "clean" process freshly to all tracked files to forcibly add them again to the index. This is useful after changing core.autocrlf configuration or the text attribute in order to correct files added with wrong CRLF/LF line endings. This option implies -u.
+
+--chmod=(+|-)x
+Override the executable bit of the added files. The executable bit is only changed in the index, the files on disk are left unchanged.
+
+--pathspec-from-file=<file>
+Pathspec is passed in <file> instead of commandline args. If <file> is exactly - then standard input is used. Pathspec elements are separated by LF or CR/LF. Pathspec elements can be quoted as explained for the configuration variable core.quotePath (see git-config(1)). See also --pathspec-file-nul and global --literal-pathspecs.
+
+--pathspec-file-nul
+Only meaningful with --pathspec-from-file. Pathspec elements are separated with NUL character and all other characters are taken literally (including newlines and quotes).
+
+--
+This option can be used to separate command-line options from the list of files, (useful when filenames might be mistaken for command-line options).
+
+EXAMPLES
+Adds content from all *.txt files under Documentation directory and its subdirectories:
+
+$ git add Documentation/\*.txt
+Note that the asterisk * is quoted from the shell in this example; this lets the command include the files from subdirectories of Documentation/ directory.
+
+Considers adding content from all git-*.sh scripts:
+
+$ git add git-*.sh
+Because this example lets the shell expand the asterisk (i.e. you are listing the files explicitly), it does not consider subdir/git-foo.sh.
+
+INTERACTIVE MODE
+When the command enters the interactive mode, it shows the output of the status subcommand, and then goes into its interactive command loop.
+
+The command loop shows the list of subcommands available, and gives a prompt "What now> ". In general, when the prompt ends with a single >, you can pick only one of the choices given and type return, like this:
+
+    *** Commands ***
+      1: status       2: update       3: revert       4: add untracked
+      5: patch        6: diff         7: quit         8: help
+    What now> 1
+You also could say s or sta or status above as long as the choice is unique.
+
+The main command loop has 6 subcommands (plus help and quit).
+
+status
+This shows the change between HEAD and index (i.e. what will be committed if you say git commit), and between index and working tree files (i.e. what you could stage further before git commit using git add) for each path. A sample output looks like this:
+
+              staged     unstaged path
+     1:       binary      nothing foo.png
+     2:     +403/-35        +1/-1 git-add--interactive.perl
+It shows that foo.png has differences from HEAD (but that is binary so line count cannot be shown) and there is no difference between indexed copy and the working tree version (if the working tree version were also different, binary would have been shown in place of nothing). The other file, git-add--interactive.perl, has 403 lines added and 35 lines deleted if you commit what is in the index, but working tree file has further modifications (one addition and one deletion).
+
+update
+This shows the status information and issues an "Update>>" prompt. When the prompt ends with double >>, you can make more than one selection, concatenated with whitespace or comma. Also you can say ranges. E.g. "2-5 7,9" to choose 2,3,4,5,7,9 from the list. If the second number in a range is omitted, all remaining patches are taken. E.g. "7-" to choose 7,8,9 from the list. You can say * to choose everything.
+
+What you chose are then highlighted with *, like this:
+
+           staged     unstaged path
+  1:       binary      nothing foo.png
+* 2:     +403/-35        +1/-1 git-add--interactive.perl
+To remove selection, prefix the input with - like this:
+
+Update>> -2
+After making the selection, answer with an empty line to stage the contents of working tree files for selected paths in the index.
+
+revert
+This has a very similar UI to update, and the staged information for selected paths are reverted to that of the HEAD version. Reverting new paths makes them untracked.
+
+add untracked
+This has a very similar UI to update and revert, and lets you add untracked paths to the index.
+
+patch
+This lets you choose one path out of a status like selection. After choosing the path, it presents the diff between the index and the working tree file and asks you if you want to stage the change of each hunk. You can select one of the following options and type return:
+
+y - stage this hunk
+n - do not stage this hunk
+q - quit; do not stage this hunk or any of the remaining ones
+a - stage this hunk and all later hunks in the file
+d - do not stage this hunk or any of the later hunks in the file
+g - select a hunk to go to
+/ - search for a hunk matching the given regex
+j - leave this hunk undecided, see next undecided hunk
+J - leave this hunk undecided, see next hunk
+k - leave this hunk undecided, see previous undecided hunk
+K - leave this hunk undecided, see previous hunk
+s - split the current hunk into smaller hunks
+e - manually edit the current hunk
+? - print help
+After deciding the fate for all hunks, if there is any hunk that was chosen, the index is updated with the selected hunks.
+
+You can omit having to type return here, by setting the configuration variable interactive.singleKey to true.
+
+diff
+This lets you review what will be committed (i.e. between HEAD and index).
+
+EDITING PATCHES
+Invoking git add -e or selecting e from the interactive hunk selector will open a patch in your editor; after the editor exits, the result is applied to the index. You are free to make arbitrary changes to the patch, but note that some changes may have confusing results, or even result in a patch that cannot be applied. If you want to abort the operation entirely (i.e., stage nothing new in the index), simply delete all lines of the patch. The list below describes some common things you may see in a patch, and which editing operations make sense on them.
+
+added content
+Added content is represented by lines beginning with "+". You can prevent staging any addition lines by deleting them.
+
+removed content
+Removed content is represented by lines beginning with "-". You can prevent staging their removal by converting the "-" to a " " (space).
+
+modified content
+Modified content is represented by "-" lines (removing the old content) followed by "+" lines (adding the replacement content). You can prevent staging the modification by converting "-" lines to " ", and removing "+" lines. Beware that modifying only half of the pair is likely to introduce confusing changes to the index.
+
+There are also more complex operations that can be performed. But beware that because the patch is applied only to the index and not the working tree, the working tree will appear to "undo" the change in the index. For example, introducing a new line into the index that is in neither the HEAD nor the working tree will stage the new line for commit, but the line will appear to be reverted in the working tree.
+
+Avoid using these constructs, or do so with extreme caution.
+
+removing untouched content
+Content which does not differ between the index and working tree may be shown on context lines, beginning with a " " (space). You can stage context lines for removal by converting the space to a "-". The resulting working tree file will appear to re-add the content.
+
+modifying existing content
+One can also modify context lines by staging them for removal (by converting " " to "-") and adding a "+" line with the new content. Similarly, one can modify "+" lines for existing additions or modifications. In all cases, the new modification will appear reverted in the working tree.
+
+new content
+You may also add new content that does not exist in the patch; simply add new lines, each starting with "+". The addition will appear reverted in the working tree.
+
+There are also several operations which should be avoided entirely, as they will make the patch impossible to apply:
+
+adding context (" ") or removal ("-") lines
+
+deleting context or removal lines
+
+modifying the contents of context or removal lines
+
+git-commit(1) Manual Page
+NAME
+git-commit - Record changes to the repository
+
+SYNOPSIS
+git commit [-a | --interactive | --patch] [-s] [-v] [-u<mode>] [--amend]
+           [--dry-run] [(-c | -C | --fixup | --squash) <commit>]
+           [-F <file> | -m <msg>] [--reset-author] [--allow-empty]
+           [--allow-empty-message] [--no-verify] [-e] [--author=<author>]
+           [--date=<date>] [--cleanup=<mode>] [--[no-]status]
+           [-i | -o] [--pathspec-from-file=<file> [--pathspec-file-nul]]
+           [-S[<keyid>]] [--] [<pathspec>…​]
+DESCRIPTION
+Create a new commit containing the current contents of the index and the given log message describing the changes. The new commit is a direct child of HEAD, usually the tip of the current branch, and the branch is updated to point to it (unless no branch is associated with the working tree, in which case HEAD is "detached" as described in git-checkout(1)).
+
+The content to be committed can be specified in several ways:
+
+by using git-add(1) to incrementally "add" changes to the index before using the commit command (Note: even modified files must be "added");
+
+by using git-rm(1) to remove files from the working tree and the index, again before using the commit command;
+
+by listing files as arguments to the commit command (without --interactive or --patch switch), in which case the commit will ignore changes staged in the index, and instead record the current content of the listed files (which must already be known to Git);
+
+by using the -a switch with the commit command to automatically "add" changes from all known files (i.e. all files that are already listed in the index) and to automatically "rm" files in the index that have been removed from the working tree, and then perform the actual commit;
+
+by using the --interactive or --patch switches with the commit command to decide one by one which files or hunks should be part of the commit in addition to contents in the index, before finalizing the operation. See the “Interactive Mode” section of git-add(1) to learn how to operate these modes.
+
+The --dry-run option can be used to obtain a summary of what is included by any of the above for the next commit by giving the same set of parameters (options and paths).
+
+If you make a commit and then find a mistake immediately after that, you can recover from it with git reset.
+
+OPTIONS
+-a
+--all
+Tell the command to automatically stage files that have been modified and deleted, but new files you have not told Git about are not affected.
+
+-p
+--patch
+Use the interactive patch selection interface to chose which changes to commit. See git-add(1) for details.
+
+-C <commit>
+--reuse-message=<commit>
+Take an existing commit object, and reuse the log message and the authorship information (including the timestamp) when creating the commit.
+
+-c <commit>
+--reedit-message=<commit>
+Like -C, but with -c the editor is invoked, so that the user can further edit the commit message.
+
+--fixup=<commit>
+Construct a commit message for use with rebase --autosquash. The commit message will be the subject line from the specified commit with a prefix of "fixup! ". See git-rebase(1) for details.
+
+--squash=<commit>
+Construct a commit message for use with rebase --autosquash. The commit message subject line is taken from the specified commit with a prefix of "squash! ". Can be used with additional commit message options (-m/-c/-C/-F). See git-rebase(1) for details.
+
+--reset-author
+When used with -C/-c/--amend options, or when committing after a conflicting cherry-pick, declare that the authorship of the resulting commit now belongs to the committer. This also renews the author timestamp.
+
+--short
+When doing a dry-run, give the output in the short-format. See git-status(1) for details. Implies --dry-run.
+
+--branch
+Show the branch and tracking info even in short-format.
+
+--porcelain
+When doing a dry-run, give the output in a porcelain-ready format. See git-status(1) for details. Implies --dry-run.
+
+--long
+When doing a dry-run, give the output in the long-format. Implies --dry-run.
+
+-z
+--null
+When showing short or porcelain status output, print the filename verbatim and terminate the entries with NUL, instead of LF. If no format is given, implies the --porcelain output format. Without the -z option, filenames with "unusual" characters are quoted as explained for the configuration variable core.quotePath (see git-config(1)).
+
+-F <file>
+--file=<file>
+Take the commit message from the given file. Use - to read the message from the standard input.
+
+--author=<author>
+Override the commit author. Specify an explicit author using the standard A U Thor <author@example.com> format. Otherwise <author> is assumed to be a pattern and is used to search for an existing commit by that author (i.e. rev-list --all -i --author=<author>); the commit author is then copied from the first such commit found.
+
+--date=<date>
+Override the author date used in the commit.
+
+-m <msg>
+--message=<msg>
+Use the given <msg> as the commit message. If multiple -m options are given, their values are concatenated as separate paragraphs.
+
+The -m option is mutually exclusive with -c, -C, and -F.
+
+-t <file>
+--template=<file>
+When editing the commit message, start the editor with the contents in the given file. The commit.template configuration variable is often used to give this option implicitly to the command. This mechanism can be used by projects that want to guide participants with some hints on what to write in the message in what order. If the user exits the editor without editing the message, the commit is aborted. This has no effect when a message is given by other means, e.g. with the -m or -F options.
+
+-s
+--signoff
+--no-signoff
+Add a Signed-off-by trailer by the committer at the end of the commit log message. The meaning of a signoff depends on the project to which you’re committing. For example, it may certify that the committer has the rights to submit the work under the project’s license or agrees to some contributor representation, such as a Developer Certificate of Origin. (See http://developercertificate.org for the one used by the Linux kernel and Git projects.) Consult the documentation or leadership of the project to which you’re contributing to understand how the signoffs are used in that project.
+
+The --no-signoff option can be used to countermand an earlier --signoff option on the command line.
+
+-n
+--no-verify
+This option bypasses the pre-commit and commit-msg hooks. See also githooks(5).
+
+--allow-empty
+Usually recording a commit that has the exact same tree as its sole parent commit is a mistake, and the command prevents you from making such a commit. This option bypasses the safety, and is primarily for use by foreign SCM interface scripts.
+
+--allow-empty-message
+Like --allow-empty this command is primarily for use by foreign SCM interface scripts. It allows you to create a commit with an empty commit message without using plumbing commands like git-commit-tree(1).
+
+--cleanup=<mode>
+This option determines how the supplied commit message should be cleaned up before committing. The <mode> can be strip, whitespace, verbatim, scissors or default.
+
+strip
+Strip leading and trailing empty lines, trailing whitespace, commentary and collapse consecutive empty lines.
+
+whitespace
+Same as strip except #commentary is not removed.
+
+verbatim
+Do not change the message at all.
+
+scissors
+Same as whitespace except that everything from (and including) the line found below is truncated, if the message is to be edited. "#" can be customized with core.commentChar.
+
+# ------------------------ >8 ------------------------
+default
+Same as strip if the message is to be edited. Otherwise whitespace.
+
+The default can be changed by the commit.cleanup configuration variable (see git-config(1)).
+
+-e
+--edit
+The message taken from file with -F, command line with -m, and from commit object with -C are usually used as the commit log message unmodified. This option lets you further edit the message taken from these sources.
+
+--no-edit
+Use the selected commit message without launching an editor. For example, git commit --amend --no-edit amends a commit without changing its commit message.
+
+--amend
+Replace the tip of the current branch by creating a new commit. The recorded tree is prepared as usual (including the effect of the -i and -o options and explicit pathspec), and the message from the original commit is used as the starting point, instead of an empty message, when no other message is specified from the command line via options such as -m, -F, -c, etc. The new commit has the same parents and author as the current one (the --reset-author option can countermand this).
+
+It is a rough equivalent for:
+
+        $ git reset --soft HEAD^
+        $ ... do something else to come up with the right tree ...
+        $ git commit -c ORIG_HEAD
+but can be used to amend a merge commit.
+
+You should understand the implications of rewriting history if you amend a commit that has already been published. (See the "RECOVERING FROM UPSTREAM REBASE" section in git-rebase(1).)
+
+--no-post-rewrite
+Bypass the post-rewrite hook.
+
+-i
+--include
+Before making a commit out of staged contents so far, stage the contents of paths given on the command line as well. This is usually not what you want unless you are concluding a conflicted merge.
+
+-o
+--only
+Make a commit by taking the updated working tree contents of the paths specified on the command line, disregarding any contents that have been staged for other paths. This is the default mode of operation of git commit if any paths are given on the command line, in which case this option can be omitted. If this option is specified together with --amend, then no paths need to be specified, which can be used to amend the last commit without committing changes that have already been staged. If used together with --allow-empty paths are also not required, and an empty commit will be created.
+
+--pathspec-from-file=<file>
+Pathspec is passed in <file> instead of commandline args. If <file> is exactly - then standard input is used. Pathspec elements are separated by LF or CR/LF. Pathspec elements can be quoted as explained for the configuration variable core.quotePath (see git-config(1)). See also --pathspec-file-nul and global --literal-pathspecs.
+
+--pathspec-file-nul
+Only meaningful with --pathspec-from-file. Pathspec elements are separated with NUL character and all other characters are taken literally (including newlines and quotes).
+
+-u[<mode>]
+--untracked-files[=<mode>]
+Show untracked files.
+
+The mode parameter is optional (defaults to all), and is used to specify the handling of untracked files; when -u is not used, the default is normal, i.e. show untracked files and directories.
+
+The possible options are:
+
+no - Show no untracked files
+
+normal - Shows untracked files and directories
+
+all - Also shows individual files in untracked directories.
+
+The default can be changed using the status.showUntrackedFiles configuration variable documented in git-config(1).
+
+-v
+--verbose
+Show unified diff between the HEAD commit and what would be committed at the bottom of the commit message template to help the user describe the commit by reminding what changes the commit has. Note that this diff output doesn’t have its lines prefixed with #. This diff will not be a part of the commit message. See the commit.verbose configuration variable in git-config(1).
+
+If specified twice, show in addition the unified diff between what would be committed and the worktree files, i.e. the unstaged changes to tracked files.
+
+-q
+--quiet
+Suppress commit summary message.
+
+--dry-run
+Do not create a commit, but show a list of paths that are to be committed, paths with local changes that will be left uncommitted and paths that are untracked.
+
+--status
+Include the output of git-status(1) in the commit message template when using an editor to prepare the commit message. Defaults to on, but can be used to override configuration variable commit.status.
+
+--no-status
+Do not include the output of git-status(1) in the commit message template when using an editor to prepare the default commit message.
+
+-S[<keyid>]
+--gpg-sign[=<keyid>]
+--no-gpg-sign
+GPG-sign commits. The keyid argument is optional and defaults to the committer identity; if specified, it must be stuck to the option without a space. --no-gpg-sign is useful to countermand both commit.gpgSign configuration variable, and earlier --gpg-sign.
+
+--
+Do not interpret any more arguments as options.
+
+<pathspec>…​
+When pathspec is given on the command line, commit the contents of the files that match the pathspec without recording the changes already added to the index. The contents of these files are also staged for the next commit on top of what have been staged before.
+
+For more details, see the pathspec entry in gitglossary(7).
+
+EXAMPLES
+When recording your own work, the contents of modified files in your working tree are temporarily stored to a staging area called the "index" with git add. A file can be reverted back, only in the index but not in the working tree, to that of the last commit with git restore --staged <file>, which effectively reverts git add and prevents the changes to this file from participating in the next commit. After building the state to be committed incrementally with these commands, git commit (without any pathname parameter) is used to record what has been staged so far. This is the most basic form of the command. An example:
+
+$ edit hello.c
+$ git rm goodbye.c
+$ git add hello.c
+$ git commit
+Instead of staging files after each individual change, you can tell git commit to notice the changes to the files whose contents are tracked in your working tree and do corresponding git add and git rm for you. That is, this example does the same as the earlier example if there is no other change in your working tree:
+
+$ edit hello.c
+$ rm goodbye.c
+$ git commit -a
+The command git commit -a first looks at your working tree, notices that you have modified hello.c and removed goodbye.c, and performs necessary git add and git rm for you.
+
+After staging changes to many files, you can alter the order the changes are recorded in, by giving pathnames to git commit. When pathnames are given, the command makes a commit that only records the changes made to the named paths:
+
+$ edit hello.c hello.h
+$ git add hello.c hello.h
+$ edit Makefile
+$ git commit Makefile
+This makes a commit that records the modification to Makefile. The changes staged for hello.c and hello.h are not included in the resulting commit. However, their changes are not lost — they are still staged and merely held back. After the above sequence, if you do:
+
+$ git commit
+this second commit would record the changes to hello.c and hello.h as expected.
+
+After a merge (initiated by git merge or git pull) stops because of conflicts, cleanly merged paths are already staged to be committed for you, and paths that conflicted are left in unmerged state. You would have to first check which paths are conflicting with git status and after fixing them manually in your working tree, you would stage the result as usual with git add:
+
+$ git status | grep unmerged
+unmerged: hello.c
+$ edit hello.c
+$ git add hello.c
+After resolving conflicts and staging the result, git ls-files -u would stop mentioning the conflicted path. When you are done, run git commit to finally record the merge:
+
+$ git commit
+As with the case to record your own changes, you can use -a option to save typing. One difference is that during a merge resolution, you cannot use git commit with pathnames to alter the order the changes are committed, because the merge should be recorded as a single commit. In fact, the command refuses to run when given pathnames (but see -i option).
+
+COMMIT INFORMATION
+Author and committer information is taken from the following environment variables, if set:
+
+GIT_AUTHOR_NAME
+GIT_AUTHOR_EMAIL
+GIT_AUTHOR_DATE
+GIT_COMMITTER_NAME
+GIT_COMMITTER_EMAIL
+GIT_COMMITTER_DATE
+(nb "<", ">" and "\n"s are stripped)
+
+The author and committer names are by convention some form of a personal name (that is, the name by which other humans refer to you), although Git does not enforce or require any particular form. Arbitrary Unicode may be used, subject to the constraints listed above. This name has no effect on authentication; for that, see the credential.username variable in git-config(1).
+
+In case (some of) these environment variables are not set, the information is taken from the configuration items user.name and user.email, or, if not present, the environment variable EMAIL, or, if that is not set, system user name and the hostname used for outgoing mail (taken from /etc/mailname and falling back to the fully qualified hostname when that file does not exist).
+
+The author.name and committer.name and their corresponding email options override user.name and user.email if set and are overridden themselves by the environment variables.
+
+The typical usage is to set just the user.name and user.email variables; the other options are provided for more complex use cases.
+
+DATE FORMATS
+The GIT_AUTHOR_DATE and GIT_COMMITTER_DATE environment variables support the following date formats:
+
+Git internal format
+It is <unix timestamp> <time zone offset>, where <unix timestamp> is the number of seconds since the UNIX epoch. <time zone offset> is a positive or negative offset from UTC. For example CET (which is 1 hour ahead of UTC) is +0100.
+
+RFC 2822
+The standard email format as described by RFC 2822, for example Thu, 07 Apr 2005 22:13:13 +0200.
+
+ISO 8601
+Time and date specified by the ISO 8601 standard, for example 2005-04-07T22:13:13. The parser accepts a space instead of the T character as well. Fractional parts of a second will be ignored, for example 2005-04-07T22:13:13.019 will be treated as 2005-04-07T22:13:13.
+
+NOTE
+In addition, the date part is accepted in the following formats: YYYY.MM.DD, MM/DD/YYYY and DD.MM.YYYY.
+In addition to recognizing all date formats above, the --date option will also try to make sense of other, more human-centric date formats, such as relative dates like "yesterday" or "last Friday at noon".
+
+DISCUSSION
+Though not required, it’s a good idea to begin the commit message with a single short (less than 50 character) line summarizing the change, followed by a blank line and then a more thorough description. The text up to the first blank line in a commit message is treated as the commit title, and that title is used throughout Git. For example, git-format-patch(1) turns a commit into email, and it uses the title on the Subject line and the rest of the commit in the body.
+
+Git is to some extent character encoding agnostic.
+
+The contents of the blob objects are uninterpreted sequences of bytes. There is no encoding translation at the core level.
+
+Path names are encoded in UTF-8 normalization form C. This applies to tree objects, the index file, ref names, as well as path names in command line arguments, environment variables and config files (.git/config (see git-config(1)), gitignore(5), gitattributes(5) and gitmodules(5)).
+
+Note that Git at the core level treats path names simply as sequences of non-NUL bytes, there are no path name encoding conversions (except on Mac and Windows). Therefore, using non-ASCII path names will mostly work even on platforms and file systems that use legacy extended ASCII encodings. However, repositories created on such systems will not work properly on UTF-8-based systems (e.g. Linux, Mac, Windows) and vice versa. Additionally, many Git-based tools simply assume path names to be UTF-8 and will fail to display other encodings correctly.
+
+Commit log messages are typically encoded in UTF-8, but other extended ASCII encodings are also supported. This includes ISO-8859-x, CP125x and many others, but not UTF-16/32, EBCDIC and CJK multi-byte encodings (GBK, Shift-JIS, Big5, EUC-x, CP9xx etc.).
+
+Although we encourage that the commit log messages are encoded in UTF-8, both the core and Git Porcelain are designed not to force UTF-8 on projects. If all participants of a particular project find it more convenient to use legacy encodings, Git does not forbid it. However, there are a few things to keep in mind.
+
+git commit and git commit-tree issues a warning if the commit log message given to it does not look like a valid UTF-8 string, unless you explicitly say your project uses a legacy encoding. The way to say this is to have i18n.commitEncoding in .git/config file, like this:
+
+[i18n]
+        commitEncoding = ISO-8859-1
+Commit objects created with the above setting record the value of i18n.commitEncoding in its encoding header. This is to help other people who look at them later. Lack of this header implies that the commit log message is encoded in UTF-8.
+
+git log, git show, git blame and friends look at the encoding header of a commit object, and try to re-code the log message into UTF-8 unless otherwise specified. You can specify the desired output encoding with i18n.logOutputEncoding in .git/config file, like this:
+
+[i18n]
+        logOutputEncoding = ISO-8859-1
+If you do not have this configuration variable, the value of i18n.commitEncoding is used instead.
+
+Note that we deliberately chose not to re-code the commit log message when a commit is made to force UTF-8 at the commit object level, because re-coding to UTF-8 is not necessarily a reversible operation.
+
+ENVIRONMENT AND CONFIGURATION VARIABLES
+The editor used to edit the commit log message will be chosen from the GIT_EDITOR environment variable, the core.editor configuration variable, the VISUAL environment variable, or the EDITOR environment variable (in that order). See git-var(1) for details.
+
+HOOKS
+This command can run commit-msg, prepare-commit-msg, pre-commit, post-commit and post-rewrite hooks. See githooks(5) for more information.
+
+FILES
+$GIT_DIR/COMMIT_EDITMSG
+This file contains the commit message of a commit in progress. If git commit exits due to an error before creating a commit, any commit message that has been provided by the user (e.g., in an editor session) will be available in this file, but will be overwritten by the next invocation of git commit.
+
+git-push(1) Manual Page
+NAME
+git-push - Update remote refs along with associated objects
+
+SYNOPSIS
+git push [--all | --mirror | --tags] [--follow-tags] [--atomic] [-n | --dry-run] [--receive-pack=<git-receive-pack>]
+           [--repo=<repository>] [-f | --force] [-d | --delete] [--prune] [-v | --verbose]
+           [-u | --set-upstream] [-o <string> | --push-option=<string>]
+           [--[no-]signed|--signed=(true|false|if-asked)]
+           [--force-with-lease[=<refname>[:<expect>]] [--force-if-includes]]
+           [--no-verify] [<repository> [<refspec>…​]]
+DESCRIPTION
+Updates remote refs using local refs, while sending objects necessary to complete the given refs.
+
+You can make interesting things happen to a repository every time you push into it, by setting up hooks there. See documentation for git-receive-pack(1).
+
+When the command line does not specify where to push with the <repository> argument, branch.*.remote configuration for the current branch is consulted to determine where to push. If the configuration is missing, it defaults to origin.
+
+When the command line does not specify what to push with <refspec>... arguments or --all, --mirror, --tags options, the command finds the default <refspec> by consulting remote.*.push configuration, and if it is not found, honors push.default configuration to decide what to push (See git-config(1) for the meaning of push.default).
+
+When neither the command-line nor the configuration specify what to push, the default behavior is used, which corresponds to the simple value for push.default: the current branch is pushed to the corresponding upstream branch, but as a safety measure, the push is aborted if the upstream branch does not have the same name as the local one.
+
+OPTIONS
+<repository>
+The "remote" repository that is destination of a push operation. This parameter can be either a URL (see the section GIT URLS below) or the name of a remote (see the section REMOTES below).
+
+<refspec>…​
+Specify what destination ref to update with what source object. The format of a <refspec> parameter is an optional plus +, followed by the source object <src>, followed by a colon :, followed by the destination ref <dst>.
+
+The <src> is often the name of the branch you would want to push, but it can be any arbitrary "SHA-1 expression", such as master~4 or HEAD (see gitrevisions(7)).
+
+The <dst> tells which ref on the remote side is updated with this push. Arbitrary expressions cannot be used here, an actual ref must be named. If git push [<repository>] without any <refspec> argument is set to update some ref at the destination with <src> with remote.<repository>.push configuration variable, :<dst> part can be omitted—​such a push will update a ref that <src> normally updates without any <refspec> on the command line. Otherwise, missing :<dst> means to update the same ref as the <src>.
+
+If <dst> doesn’t start with refs/ (e.g. refs/heads/master) we will try to infer where in refs/* on the destination <repository> it belongs based on the type of <src> being pushed and whether <dst> is ambiguous.
+
+If <dst> unambiguously refers to a ref on the <repository> remote, then push to that ref.
+
+If <src> resolves to a ref starting with refs/heads/ or refs/tags/, then prepend that to <dst>.
+
+Other ambiguity resolutions might be added in the future, but for now any other cases will error out with an error indicating what we tried, and depending on the advice.pushUnqualifiedRefname configuration (see git-config(1)) suggest what refs/ namespace you may have wanted to push to.
+
+The object referenced by <src> is used to update the <dst> reference on the remote side. Whether this is allowed depends on where in refs/* the <dst> reference lives as described in detail below, in those sections "update" means any modifications except deletes, which as noted after the next few sections are treated differently.
+
+The refs/heads/* namespace will only accept commit objects, and updates only if they can be fast-forwarded.
+
+The refs/tags/* namespace will accept any kind of object (as commits, trees and blobs can be tagged), and any updates to them will be rejected.
+
+It’s possible to push any type of object to any namespace outside of refs/{tags,heads}/*. In the case of tags and commits, these will be treated as if they were the commits inside refs/heads/* for the purposes of whether the update is allowed.
+
+I.e. a fast-forward of commits and tags outside refs/{tags,heads}/* is allowed, even in cases where what’s being fast-forwarded is not a commit, but a tag object which happens to point to a new commit which is a fast-forward of the commit the last tag (or commit) it’s replacing. Replacing a tag with an entirely different tag is also allowed, if it points to the same commit, as well as pushing a peeled tag, i.e. pushing the commit that existing tag object points to, or a new tag object which an existing commit points to.
+
+Tree and blob objects outside of refs/{tags,heads}/* will be treated the same way as if they were inside refs/tags/*, any update of them will be rejected.
+
+All of the rules described above about what’s not allowed as an update can be overridden by adding an the optional leading + to a refspec (or using --force command line option). The only exception to this is that no amount of forcing will make the refs/heads/* namespace accept a non-commit object. Hooks and configuration can also override or amend these rules, see e.g. receive.denyNonFastForwards in git-config(1) and pre-receive and update in githooks(5).
+
+Pushing an empty <src> allows you to delete the <dst> ref from the remote repository. Deletions are always accepted without a leading + in the refspec (or --force), except when forbidden by configuration or hooks. See receive.denyDeletes in git-config(1) and pre-receive and update in githooks(5).
+
+The special refspec : (or +: to allow non-fast-forward updates) directs Git to push "matching" branches: for every branch that exists on the local side, the remote side is updated if a branch of the same name already exists on the remote side.
+
+tag <tag> means the same as refs/tags/<tag>:refs/tags/<tag>.
+
+--all
+Push all branches (i.e. refs under refs/heads/); cannot be used with other <refspec>.
+
+--prune
+Remove remote branches that don’t have a local counterpart. For example a remote branch tmp will be removed if a local branch with the same name doesn’t exist any more. This also respects refspecs, e.g. git push --prune remote refs/heads/*:refs/tmp/* would make sure that remote refs/tmp/foo will be removed if refs/heads/foo doesn’t exist.
+
+--mirror
+Instead of naming each ref to push, specifies that all refs under refs/ (which includes but is not limited to refs/heads/, refs/remotes/, and refs/tags/) be mirrored to the remote repository. Newly created local refs will be pushed to the remote end, locally updated refs will be force updated on the remote end, and deleted refs will be removed from the remote end. This is the default if the configuration option remote.<remote>.mirror is set.
+
+-n
+--dry-run
+Do everything except actually send the updates.
+
+--porcelain
+Produce machine-readable output. The output status line for each ref will be tab-separated and sent to stdout instead of stderr. The full symbolic names of the refs will be given.
+
+-d
+--delete
+All listed refs are deleted from the remote repository. This is the same as prefixing all refs with a colon.
+
+--tags
+All refs under refs/tags are pushed, in addition to refspecs explicitly listed on the command line.
+
+--follow-tags
+Push all the refs that would be pushed without this option, and also push annotated tags in refs/tags that are missing from the remote but are pointing at commit-ish that are reachable from the refs being pushed. This can also be specified with configuration variable push.followTags. For more information, see push.followTags in git-config(1).
+
+--[no-]signed
+--signed=(true|false|if-asked)
+GPG-sign the push request to update refs on the receiving side, to allow it to be checked by the hooks and/or be logged. If false or --no-signed, no signing will be attempted. If true or --signed, the push will fail if the server does not support signed pushes. If set to if-asked, sign if and only if the server supports signed pushes. The push will also fail if the actual call to gpg --sign fails. See git-receive-pack(1) for the details on the receiving end.
+
+--[no-]atomic
+Use an atomic transaction on the remote side if available. Either all refs are updated, or on error, no refs are updated. If the server does not support atomic pushes the push will fail.
+
+-o <option>
+--push-option=<option>
+Transmit the given string to the server, which passes them to the pre-receive as well as the post-receive hook. The given string must not contain a NUL or LF character. When multiple --push-option=<option> are given, they are all sent to the other side in the order listed on the command line. When no --push-option=<option> is given from the command line, the values of configuration variable push.pushOption are used instead.
+
+--receive-pack=<git-receive-pack>
+--exec=<git-receive-pack>
+Path to the git-receive-pack program on the remote end. Sometimes useful when pushing to a remote repository over ssh, and you do not have the program in a directory on the default $PATH.
+
+--[no-]force-with-lease
+--force-with-lease=<refname>
+--force-with-lease=<refname>:<expect>
+Usually, "git push" refuses to update a remote ref that is not an ancestor of the local ref used to overwrite it.
+
+This option overrides this restriction if the current value of the remote ref is the expected value. "git push" fails otherwise.
+
+Imagine that you have to rebase what you have already published. You will have to bypass the "must fast-forward" rule in order to replace the history you originally published with the rebased history. If somebody else built on top of your original history while you are rebasing, the tip of the branch at the remote may advance with her commit, and blindly pushing with --force will lose her work.
+
+This option allows you to say that you expect the history you are updating is what you rebased and want to replace. If the remote ref still points at the commit you specified, you can be sure that no other people did anything to the ref. It is like taking a "lease" on the ref without explicitly locking it, and the remote ref is updated only if the "lease" is still valid.
+
+--force-with-lease alone, without specifying the details, will protect all remote refs that are going to be updated by requiring their current value to be the same as the remote-tracking branch we have for them.
+
+--force-with-lease=<refname>, without specifying the expected value, will protect the named ref (alone), if it is going to be updated, by requiring its current value to be the same as the remote-tracking branch we have for it.
+
+--force-with-lease=<refname>:<expect> will protect the named ref (alone), if it is going to be updated, by requiring its current value to be the same as the specified value <expect> (which is allowed to be different from the remote-tracking branch we have for the refname, or we do not even have to have such a remote-tracking branch when this form is used). If <expect> is the empty string, then the named ref must not already exist.
+
+Note that all forms other than --force-with-lease=<refname>:<expect> that specifies the expected current value of the ref explicitly are still experimental and their semantics may change as we gain experience with this feature.
+
+"--no-force-with-lease" will cancel all the previous --force-with-lease on the command line.
+
+A general note on safety: supplying this option without an expected value, i.e. as --force-with-lease or --force-with-lease=<refname> interacts very badly with anything that implicitly runs git fetch on the remote to be pushed to in the background, e.g. git fetch origin on your repository in a cronjob.
+
+The protection it offers over --force is ensuring that subsequent changes your work wasn’t based on aren’t clobbered, but this is trivially defeated if some background process is updating refs in the background. We don’t have anything except the remote tracking info to go by as a heuristic for refs you’re expected to have seen & are willing to clobber.
+
+If your editor or some other system is running git fetch in the background for you a way to mitigate this is to simply set up another remote:
+
+git remote add origin-push $(git config remote.origin.url)
+git fetch origin-push
+Now when the background process runs git fetch origin the references on origin-push won’t be updated, and thus commands like:
+
+git push --force-with-lease origin-push
+Will fail unless you manually run git fetch origin-push. This method is of course entirely defeated by something that runs git fetch --all, in that case you’d need to either disable it or do something more tedious like:
+
+git fetch              # update 'master' from remote
+git tag base master    # mark our base point
+git rebase -i master   # rewrite some commits
+git push --force-with-lease=master:base master:master
+I.e. create a base tag for versions of the upstream code that you’ve seen and are willing to overwrite, then rewrite history, and finally force push changes to master if the remote version is still at base, regardless of what your local remotes/origin/master has been updated to in the background.
+
+Alternatively, specifying --force-if-includes as an ancillary option along with --force-with-lease[=<refname>] (i.e., without saying what exact commit the ref on the remote side must be pointing at, or which refs on the remote side are being protected) at the time of "push" will verify if updates from the remote-tracking refs that may have been implicitly updated in the background are integrated locally before allowing a forced update.
+
+-f
+--force
+Usually, the command refuses to update a remote ref that is not an ancestor of the local ref used to overwrite it. Also, when --force-with-lease option is used, the command refuses to update a remote ref whose current value does not match what is expected.
+
+This flag disables these checks, and can cause the remote repository to lose commits; use it with care.
+
+Note that --force applies to all the refs that are pushed, hence using it with push.default set to matching or with multiple push destinations configured with remote.*.push may overwrite refs other than the current branch (including local refs that are strictly behind their remote counterpart). To force a push to only one branch, use a + in front of the refspec to push (e.g git push origin +master to force a push to the master branch). See the <refspec>... section above for details.
+
+--[no-]force-if-includes
+Force an update only if the tip of the remote-tracking ref has been integrated locally.
+
+This option enables a check that verifies if the tip of the remote-tracking ref is reachable from one of the "reflog" entries of the local branch based in it for a rewrite. The check ensures that any updates from the remote have been incorporated locally by rejecting the forced update if that is not the case.
+
+If the option is passed without specifying --force-with-lease, or specified along with --force-with-lease=<refname>:<expect>, it is a "no-op".
+
+Specifying --no-force-if-includes disables this behavior.
+
+--repo=<repository>
+This option is equivalent to the <repository> argument. If both are specified, the command-line argument takes precedence.
+
+-u
+--set-upstream
+For every branch that is up to date or successfully pushed, add upstream (tracking) reference, used by argument-less git-pull(1) and other commands. For more information, see branch.<name>.merge in git-config(1).
+
+--[no-]thin
+These options are passed to git-send-pack(1). A thin transfer significantly reduces the amount of sent data when the sender and receiver share many of the same objects in common. The default is --thin.
+
+-q
+--quiet
+Suppress all output, including the listing of updated refs, unless an error occurs. Progress is not reported to the standard error stream.
+
+-v
+--verbose
+Run verbosely.
+
+--progress
+Progress status is reported on the standard error stream by default when it is attached to a terminal, unless -q is specified. This flag forces progress status even if the standard error stream is not directed to a terminal.
+
+--no-recurse-submodules
+--recurse-submodules=check|on-demand|only|no
+May be used to make sure all submodule commits used by the revisions to be pushed are available on a remote-tracking branch. If check is used Git will verify that all submodule commits that changed in the revisions to be pushed are available on at least one remote of the submodule. If any commits are missing the push will be aborted and exit with non-zero status. If on-demand is used all submodules that changed in the revisions to be pushed will be pushed. If on-demand was not able to push all necessary revisions it will also be aborted and exit with non-zero status. If only is used all submodules will be recursively pushed while the superproject is left unpushed. A value of no or using --no-recurse-submodules can be used to override the push.recurseSubmodules configuration variable when no submodule recursion is required.
+
+--[no-]verify
+Toggle the pre-push hook (see githooks(5)). The default is --verify, giving the hook a chance to prevent the push. With --no-verify, the hook is bypassed completely.
+
+-4
+--ipv4
+Use IPv4 addresses only, ignoring IPv6 addresses.
+
+-6
+--ipv6
+Use IPv6 addresses only, ignoring IPv4 addresses.
+
+GIT URLS
+In general, URLs contain information about the transport protocol, the address of the remote server, and the path to the repository. Depending on the transport protocol, some of this information may be absent.
+
+Git supports ssh, git, http, and https protocols (in addition, ftp, and ftps can be used for fetching, but this is inefficient and deprecated; do not use it).
+
+The native transport (i.e. git:// URL) does no authentication and should be used with caution on unsecured networks.
+
+The following syntaxes may be used with them:
+
+ssh://[user@]host.xz[:port]/path/to/repo.git/
+
+git://host.xz[:port]/path/to/repo.git/
+
+http[s]://host.xz[:port]/path/to/repo.git/
+
+ftp[s]://host.xz[:port]/path/to/repo.git/
+
+An alternative scp-like syntax may also be used with the ssh protocol:
+
+[user@]host.xz:path/to/repo.git/
+
+This syntax is only recognized if there are no slashes before the first colon. This helps differentiate a local path that contains a colon. For example the local path foo:bar could be specified as an absolute path or ./foo:bar to avoid being misinterpreted as an ssh url.
+
+The ssh and git protocols additionally support ~username expansion:
+
+ssh://[user@]host.xz[:port]/~[user]/path/to/repo.git/
+
+git://host.xz[:port]/~[user]/path/to/repo.git/
+
+[user@]host.xz:/~[user]/path/to/repo.git/
+
+For local repositories, also supported by Git natively, the following syntaxes may be used:
+
+/path/to/repo.git/
+
+file:///path/to/repo.git/
+
+These two syntaxes are mostly equivalent, except when cloning, when the former implies --local option. See git-clone(1) for details.
+
+git clone, git fetch and git pull, but not git push, will also accept a suitable bundle file. See git-bundle(1).
+
+When Git doesn’t know how to handle a certain transport protocol, it attempts to use the remote-<transport> remote helper, if one exists. To explicitly request a remote helper, the following syntax may be used:
+
+<transport>::<address>
+
+where <address> may be a path, a server and path, or an arbitrary URL-like string recognized by the specific remote helper being invoked. See gitremote-helpers(7) for details.
+
+If there are a large number of similarly-named remote repositories and you want to use a different format for them (such that the URLs you use will be rewritten into URLs that work), you can create a configuration section of the form:
+
+        [url "<actual url base>"]
+                insteadOf = <other url base>
+For example, with this:
+
+        [url "git://git.host.xz/"]
+                insteadOf = host.xz:/path/to/
+                insteadOf = work:
+a URL like "work:repo.git" or like "host.xz:/path/to/repo.git" will be rewritten in any context that takes a URL to be "git://git.host.xz/repo.git".
+
+If you want to rewrite URLs for push only, you can create a configuration section of the form:
+
+        [url "<actual url base>"]
+                pushInsteadOf = <other url base>
+For example, with this:
+
+        [url "ssh://example.org/"]
+                pushInsteadOf = git://example.org/
+a URL like "git://example.org/path/to/repo.git" will be rewritten to "ssh://example.org/path/to/repo.git" for pushes, but pulls will still use the original URL.
+
+REMOTES
+The name of one of the following can be used instead of a URL as <repository> argument:
+
+a remote in the Git configuration file: $GIT_DIR/config,
+
+a file in the $GIT_DIR/remotes directory, or
+
+a file in the $GIT_DIR/branches directory.
+
+All of these also allow you to omit the refspec from the command line because they each contain a refspec which git will use by default.
+
+Named remote in configuration file
+You can choose to provide the name of a remote which you had previously configured using git-remote(1), git-config(1) or even by a manual edit to the $GIT_DIR/config file. The URL of this remote will be used to access the repository. The refspec of this remote will be used by default when you do not provide a refspec on the command line. The entry in the config file would appear like this:
+
+        [remote "<name>"]
+                url = <url>
+                pushurl = <pushurl>
+                push = <refspec>
+                fetch = <refspec>
+The <pushurl> is used for pushes only. It is optional and defaults to <url>.
+
+Named file in $GIT_DIR/remotes
+You can choose to provide the name of a file in $GIT_DIR/remotes. The URL in this file will be used to access the repository. The refspec in this file will be used as default when you do not provide a refspec on the command line. This file should have the following format:
+
+        URL: one of the above URL format
+        Push: <refspec>
+        Pull: <refspec>
+Push: lines are used by git push and Pull: lines are used by git pull and git fetch. Multiple Push: and Pull: lines may be specified for additional branch mappings.
+
+Named file in $GIT_DIR/branches
+You can choose to provide the name of a file in $GIT_DIR/branches. The URL in this file will be used to access the repository. This file should have the following format:
+
+        <url>#<head>
+<url> is required; #<head> is optional.
+
+Depending on the operation, git will use one of the following refspecs, if you don’t provide one on the command line. <branch> is the name of this file in $GIT_DIR/branches and <head> defaults to master.
+
+git fetch uses:
+
+        refs/heads/<head>:refs/heads/<branch>
+git push uses:
+
+        HEAD:refs/heads/<head>
+OUTPUT
+The output of "git push" depends on the transport method used; this section describes the output when pushing over the Git protocol (either locally or via ssh).
+
+The status of the push is output in tabular form, with each line representing the status of a single ref. Each line is of the form:
+
+ <flag> <summary> <from> -> <to> (<reason>)
+If --porcelain is used, then each line of the output is of the form:
+
+ <flag> \t <from>:<to> \t <summary> (<reason>)
+The status of up-to-date refs is shown only if --porcelain or --verbose option is used.
+
+flag
+A single character indicating the status of the ref:
+
+(space)
+for a successfully pushed fast-forward;
+
++
+for a successful forced update;
+
+-
+for a successfully deleted ref;
+
+*
+for a successfully pushed new ref;
+
+!
+for a ref that was rejected or failed to push; and
+
+=
+for a ref that was up to date and did not need pushing.
+
+summary
+For a successfully pushed ref, the summary shows the old and new values of the ref in a form suitable for using as an argument to git log (this is <old>..<new> in most cases, and <old>...<new> for forced non-fast-forward updates).
+
+For a failed update, more details are given:
+
+rejected
+Git did not try to send the ref at all, typically because it is not a fast-forward and you did not force the update.
+
+remote rejected
+The remote end refused the update. Usually caused by a hook on the remote side, or because the remote repository has one of the following safety options in effect: receive.denyCurrentBranch (for pushes to the checked out branch), receive.denyNonFastForwards (for forced non-fast-forward updates), receive.denyDeletes or receive.denyDeleteCurrent. See git-config(1).
+
+remote failure
+The remote end did not report the successful update of the ref, perhaps because of a temporary error on the remote side, a break in the network connection, or other transient error.
+
+from
+The name of the local ref being pushed, minus its refs/<type>/ prefix. In the case of deletion, the name of the local ref is omitted.
+
+to
+The name of the remote ref being updated, minus its refs/<type>/ prefix.
+
+reason
+A human-readable explanation. In the case of successfully pushed refs, no explanation is needed. For a failed ref, the reason for failure is described.
+
+NOTE ABOUT FAST-FORWARDS
+When an update changes a branch (or more in general, a ref) that used to point at commit A to point at another commit B, it is called a fast-forward update if and only if B is a descendant of A.
+
+In a fast-forward update from A to B, the set of commits that the original commit A built on top of is a subset of the commits the new commit B builds on top of. Hence, it does not lose any history.
+
+In contrast, a non-fast-forward update will lose history. For example, suppose you and somebody else started at the same commit X, and you built a history leading to commit B while the other person built a history leading to commit A. The history looks like this:
+
+      B
+     /
+ ---X---A
+Further suppose that the other person already pushed changes leading to A back to the original repository from which you two obtained the original commit X.
+
+The push done by the other person updated the branch that used to point at commit X to point at commit A. It is a fast-forward.
+
+But if you try to push, you will attempt to update the branch (that now points at A) with commit B. This does not fast-forward. If you did so, the changes introduced by commit A will be lost, because everybody will now start building on top of B.
+
+The command by default does not allow an update that is not a fast-forward to prevent such loss of history.
+
+If you do not want to lose your work (history from X to B) or the work by the other person (history from X to A), you would need to first fetch the history from the repository, create a history that contains changes done by both parties, and push the result back.
+
+You can perform "git pull", resolve potential conflicts, and "git push" the result. A "git pull" will create a merge commit C between commits A and B.
+
+      B---C
+     /   /
+ ---X---A
+Updating A with the resulting merge commit will fast-forward and your push will be accepted.
+
+Alternatively, you can rebase your change between X and B on top of A, with "git pull --rebase", and push the result back. The rebase will create a new commit D that builds the change between X and B on top of A.
+
+      B   D
+     /   /
+ ---X---A
+Again, updating A with this commit will fast-forward and your push will be accepted.
+
+There is another common situation where you may encounter non-fast-forward rejection when you try to push, and it is possible even when you are pushing into a repository nobody else pushes into. After you push commit A yourself (in the first picture in this section), replace it with "git commit --amend" to produce commit B, and you try to push it out, because forgot that you have pushed A out already. In such a case, and only if you are certain that nobody in the meantime fetched your earlier commit A (and started building on top of it), you can run "git push --force" to overwrite it. In other words, "git push --force" is a method reserved for a case where you do mean to lose history.
+
+EXAMPLES
+git push
+Works like git push <remote>, where <remote> is the current branch’s remote (or origin, if no remote is configured for the current branch).
+
+git push origin
+Without additional configuration, pushes the current branch to the configured upstream (remote.origin.merge configuration variable) if it has the same name as the current branch, and errors out without pushing otherwise.
+
+The default behavior of this command when no <refspec> is given can be configured by setting the push option of the remote, or the push.default configuration variable.
+
+For example, to default to pushing only the current branch to origin use git config remote.origin.push HEAD. Any valid <refspec> (like the ones in the examples below) can be configured as the default for git push origin.
+
+git push origin :
+Push "matching" branches to origin. See <refspec> in the OPTIONS section above for a description of "matching" branches.
+
+git push origin master
+Find a ref that matches master in the source repository (most likely, it would find refs/heads/master), and update the same ref (e.g. refs/heads/master) in origin repository with it. If master did not exist remotely, it would be created.
+
+git push origin HEAD
+A handy way to push the current branch to the same name on the remote.
+
+git push mothership master:satellite/master dev:satellite/dev
+Use the source ref that matches master (e.g. refs/heads/master) to update the ref that matches satellite/master (most probably refs/remotes/satellite/master) in the mothership repository; do the same for dev and satellite/dev.
+
+See the section describing <refspec>... above for a discussion of the matching semantics.
+
+This is to emulate git fetch run on the mothership using git push that is run in the opposite direction in order to integrate the work done on satellite, and is often necessary when you can only make connection in one way (i.e. satellite can ssh into mothership but mothership cannot initiate connection to satellite because the latter is behind a firewall or does not run sshd).
+
+After running this git push on the satellite machine, you would ssh into the mothership and run git merge there to complete the emulation of git pull that were run on mothership to pull changes made on satellite.
+
+git push origin HEAD:master
+Push the current branch to the remote ref matching master in the origin repository. This form is convenient to push the current branch without thinking about its local name.
+
+git push origin master:refs/heads/experimental
+Create the branch experimental in the origin repository by copying the current master branch. This form is only needed to create a new branch or tag in the remote repository when the local name and the remote name are different; otherwise, the ref name on its own will work.
+
+git push origin :experimental
+Find a ref that matches experimental in the origin repository (e.g. refs/heads/experimental), and delete it.
+
+git push origin +dev:master
+Update the origin repository’s master branch with the dev branch, allowing non-fast-forward updates. This can leave unreferenced commits dangling in the origin repository. Consider the following situation, where a fast-forward is not possible:
+
+            o---o---o---A---B  origin/master
+                     \
+                      X---Y---Z  dev
+The above command would change the origin repository to
+
+                      A---B  (unnamed branch)
+                     /
+            o---o---o---X---Y---Z  master
+Commits A and B would no longer belong to a branch with a symbolic name, and so would be unreachable. As such, these commits would be removed by a git gc command on the origin repository.
+
+SECURITY
+The fetch and push protocols are not designed to prevent one side from stealing data from the other repository that was not intended to be shared. If you have private data that you need to protect from a malicious peer, your best option is to store it in another repository. This applies to both clients and servers. In particular, namespaces on a server are not effective for read access control; you should only grant read access to a namespace to clients that you would trust with read access to the entire repository.
+
+The known attack vectors are as follows:
+
+The victim sends "have" lines advertising the IDs of objects it has that are not explicitly intended to be shared but can be used to optimize the transfer if the peer also has them. The attacker chooses an object ID X to steal and sends a ref to X, but isn’t required to send the content of X because the victim already has it. Now the victim believes that the attacker has X, and it sends the content of X back to the attacker later. (This attack is most straightforward for a client to perform on a server, by creating a ref to X in the namespace the client has access to and then fetching it. The most likely way for a server to perform it on a client is to "merge" X into a public branch and hope that the user does additional work on this branch and pushes it back to the server without noticing the merge.)
+
+As in #1, the attacker chooses an object ID X to steal. The victim sends an object Y that the attacker already has, and the attacker falsely claims to have X and not Y, so the victim sends Y as a delta against X. The delta reveals regions of X that are similar to Y to the attacker.
+
+git-remote(1) Manual Page
+NAME
+git-remote - Manage set of tracked repositories
+
+SYNOPSIS
+git remote [-v | --verbose]
+git remote add [-t <branch>] [-m <master>] [-f] [--[no-]tags] [--mirror=(fetch|push)] <name> <url>
+git remote rename <old> <new>
+git remote remove <name>
+git remote set-head <name> (-a | --auto | -d | --delete | <branch>)
+git remote set-branches [--add] <name> <branch>…​
+git remote get-url [--push] [--all] <name>
+git remote set-url [--push] <name> <newurl> [<oldurl>]
+git remote set-url --add [--push] <name> <newurl>
+git remote set-url --delete [--push] <name> <url>
+git remote [-v | --verbose] show [-n] <name>…​
+git remote prune [-n | --dry-run] <name>…​
+git remote [-v | --verbose] update [-p | --prune] [(<group> | <remote>)…​]
+DESCRIPTION
+Manage the set of repositories ("remotes") whose branches you track.
+
+OPTIONS
+-v
+--verbose
+Be a little more verbose and show remote url after name. NOTE: This must be placed between remote and subcommand.
+
+COMMANDS
+With no arguments, shows a list of existing remotes. Several subcommands are available to perform operations on the remotes.
+
+add
+Add a remote named <name> for the repository at <url>. The command git fetch <name> can then be used to create and update remote-tracking branches <name>/<branch>.
+
+With -f option, git fetch <name> is run immediately after the remote information is set up.
+
+With --tags option, git fetch <name> imports every tag from the remote repository.
+
+With --no-tags option, git fetch <name> does not import tags from the remote repository.
+
+By default, only tags on fetched branches are imported (see git-fetch(1)).
+
+With -t <branch> option, instead of the default glob refspec for the remote to track all branches under the refs/remotes/<name>/ namespace, a refspec to track only <branch> is created. You can give more than one -t <branch> to track multiple branches without grabbing all branches.
+
+With -m <master> option, a symbolic-ref refs/remotes/<name>/HEAD is set up to point at remote’s <master> branch. See also the set-head command.
+
+When a fetch mirror is created with --mirror=fetch, the refs will not be stored in the refs/remotes/ namespace, but rather everything in refs/ on the remote will be directly mirrored into refs/ in the local repository. This option only makes sense in bare repositories, because a fetch would overwrite any local commits.
+
+When a push mirror is created with --mirror=push, then git push will always behave as if --mirror was passed.
+
+rename
+Rename the remote named <old> to <new>. All remote-tracking branches and configuration settings for the remote are updated.
+
+In case <old> and <new> are the same, and <old> is a file under $GIT_DIR/remotes or $GIT_DIR/branches, the remote is converted to the configuration file format.
+
+remove
+rm
+Remove the remote named <name>. All remote-tracking branches and configuration settings for the remote are removed.
+
+set-head
+Sets or deletes the default branch (i.e. the target of the symbolic-ref refs/remotes/<name>/HEAD) for the named remote. Having a default branch for a remote is not required, but allows the name of the remote to be specified in lieu of a specific branch. For example, if the default branch for origin is set to master, then origin may be specified wherever you would normally specify origin/master.
+
+With -d or --delete, the symbolic ref refs/remotes/<name>/HEAD is deleted.
+
+With -a or --auto, the remote is queried to determine its HEAD, then the symbolic-ref refs/remotes/<name>/HEAD is set to the same branch. e.g., if the remote HEAD is pointed at next, git remote set-head origin -a will set the symbolic-ref refs/remotes/origin/HEAD to refs/remotes/origin/next. This will only work if refs/remotes/origin/next already exists; if not it must be fetched first.
+
+Use <branch> to set the symbolic-ref refs/remotes/<name>/HEAD explicitly. e.g., git remote set-head origin master will set the symbolic-ref refs/remotes/origin/HEAD to refs/remotes/origin/master. This will only work if refs/remotes/origin/master already exists; if not it must be fetched first.
+
+set-branches
+Changes the list of branches tracked by the named remote. This can be used to track a subset of the available remote branches after the initial setup for a remote.
+
+The named branches will be interpreted as if specified with the -t option on the git remote add command line.
+
+With --add, instead of replacing the list of currently tracked branches, adds to that list.
+
+get-url
+Retrieves the URLs for a remote. Configurations for insteadOf and pushInsteadOf are expanded here. By default, only the first URL is listed.
+
+With --push, push URLs are queried rather than fetch URLs.
+
+With --all, all URLs for the remote will be listed.
+
+set-url
+Changes URLs for the remote. Sets first URL for remote <name> that matches regex <oldurl> (first URL if no <oldurl> is given) to <newurl>. If <oldurl> doesn’t match any URL, an error occurs and nothing is changed.
+
+With --push, push URLs are manipulated instead of fetch URLs.
+
+With --add, instead of changing existing URLs, new URL is added.
+
+With --delete, instead of changing existing URLs, all URLs matching regex <url> are deleted for remote <name>. Trying to delete all non-push URLs is an error.
+
+Note that the push URL and the fetch URL, even though they can be set differently, must still refer to the same place. What you pushed to the push URL should be what you would see if you immediately fetched from the fetch URL. If you are trying to fetch from one place (e.g. your upstream) and push to another (e.g. your publishing repository), use two separate remotes.
+
+show
+Gives some information about the remote <name>.
+
+With -n option, the remote heads are not queried first with git ls-remote <name>; cached information is used instead.
+
+prune
+Deletes stale references associated with <name>. By default, stale remote-tracking branches under <name> are deleted, but depending on global configuration and the configuration of the remote we might even prune local tags that haven’t been pushed there. Equivalent to git fetch --prune <name>, except that no new references will be fetched.
+
+See the PRUNING section of git-fetch(1) for what it’ll prune depending on various configuration.
+
+With --dry-run option, report what branches would be pruned, but do not actually prune them.
+
+update
+Fetch updates for remotes or remote groups in the repository as defined by remotes.<group>. If neither group nor remote is specified on the command line, the configuration parameter remotes.default will be used; if remotes.default is not defined, all remotes which do not have the configuration parameter remote.<name>.skipDefaultUpdate set to true will be updated. (See git-config(1)).
+
+With --prune option, run pruning against all the remotes that are updated.
+
+DISCUSSION
+The remote configuration is achieved using the remote.origin.url and remote.origin.fetch configuration variables. (See git-config(1)).
+
+EXIT STATUS
+On success, the exit status is 0.
+
+When subcommands such as add, rename, and remove can’t find the remote in question, the exit status is 2. When the remote already exists, the exit status is 3.
+
+On any other error, the exit status may be any other non-zero value.
+
+EXAMPLES
+Add a new remote, fetch, and check out a branch from it
+
+$ git remote
+origin
+$ git branch -r
+  origin/HEAD -> origin/master
+  origin/master
+$ git remote add staging git://git.kernel.org/.../gregkh/staging.git
+$ git remote
+origin
+staging
+$ git fetch staging
+...
+From git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging
+ * [new branch]      master     -> staging/master
+ * [new branch]      staging-linus -> staging/staging-linus
+ * [new branch]      staging-next -> staging/staging-next
+$ git branch -r
+  origin/HEAD -> origin/master
+  origin/master
+  staging/master
+  staging/staging-linus
+  staging/staging-next
+$ git switch -c staging staging/master
+...
+Imitate git clone but track only selected branches
+
+$ mkdir project.git
+$ cd project.git
+$ git init
+$ git remote add -f -t master -m master origin git://example.com/git.git/
+$ git merge origin
