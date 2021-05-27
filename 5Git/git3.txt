@@ -1,0 +1,7 @@
+1- cambiar al directorio 
+2- git init para iniciar el repositorio
+3- git add .
+4- git commit -m "algo" el algo seria lo que quedaria en version
+5- git remote add origin https://github.com/Phonethedor/CodingDojo.git
+6- git push origin master 5 y 6 solo la primera vez
+7- git push
