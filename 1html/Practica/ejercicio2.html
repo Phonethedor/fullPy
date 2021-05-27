@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Formularios</title>
+    </head>
+    <body>
+        <h1>Mi formulario de registro</h1>
+        <form>
+            <table>
+                <tbody>
+                    <tr>
+                        <td><b>Nombre</b></td>
+                        <td><input type="text" id="nombre" name="nombre"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Apellido</b></td>
+                        <td><input type="text" id="apellido" name="apellido"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Email</b></td>
+                        <td><input type="email" id="email" name="email"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Contraseña</b></td>
+                        <td><input type="password" id="pass" name="pass"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Confirmar</b></td>
+                        <td><input type="password" id="passConfirm" name="passConfirm"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Cumpleaños</b></td>
+                        <td><input type="date" id="fechaNac" name="fechaNac"></td>
+                    </tr>
+                </tbody>
+            </table> 
+            <br><br><br>       
+            <label for="masculino">Masculino</label>
+            <input type="radio" id="masculino" name="genero" value="masculino">
+            <label for="femenino">Femenino</label>
+            <input type="radio" id="femenino" name="genero" value="femenino">
+            <label for="prefiero-no-decir">Otro</label>
+            <input type="radio" id="otro" name="genero" value="otro">
+            <br><br>
+            <label for="lbl1">Una breve descripcion sobre ti:</label>
+            <br>
+            <textarea name="textarea"></textarea>
+            <br><br>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Lenguaje favorito :</td>
+                        <td>
+                            <select>
+                                <option value="seleccion">Seleccione</option>
+                                <option value="javascript">JavaScript</option>
+                                <option value="python">Python</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br><br>
+            <input type="submit" value="Enviar">
+        </form>
+    </body>
+</html>

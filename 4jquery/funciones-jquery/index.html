@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <title>Funciones-jquery</title>
+    </head>
+    <style>
+
+        img{
+            width: 2em;
+            display: block;
+        }
+
+        .red{
+            color: red;
+        }
+
+        .container{
+            padding: 20px;
+        }
+
+        .boton{
+            display: inline-block;
+        }
+
+        #titulo{
+            display: inline-block;
+            font-size: 30px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        #textor{
+            font-size: 15px;
+        }
+
+        #texto{
+            font-size: 15px;
+        }
+
+    </style>
+    <script>
+        $(document).ready(function(){
+            $('#slide').hide();
+
+            $('#addClass').click(function(){
+                $('#textor').addClass('red');
+            });
+
+            $('#slideToggle').click(function(){
+                $('#slide').slideToggle();
+            })
+
+            $('#append').click(function(){
+                $('#extra').append("<p>parrafo nuevo</p>");
+            });
+        });
+    </script>
+    <body>
+        <div class="container">
+            <button class="boton" id="addClass">AddClass</button>
+            <p id="titulo">AddClass<br><span id="textor">Click the button to add class 'red' to this paragraph</span></p>
+            <hr>
+            <button class="boton" id="slideToggle">Slidetoggle</button>
+            <p id="titulo">Slidetoggle<br><span id="texto">Click the button to slidetoggle a hidden image</span></p>
+            <span id="slide"><img src="https://media.artsper.com/artwork/733560_1_l.jpg"></span>
+            <hr>
+            <button class="boton" id="append">Append</button>
+            <p id="titulo">Append<br><span id="texto">Click the button to append a new paragraph</span></p>
+            <p id='extra'></p>
+            <hr>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <title>Traversing</title>
+        <script>
+            $(document).ready(function(){
+                $('#myDiv').children().css('background-color','skyblue');
+                /* $('h3 , p').click(function(){
+                    $(this).parent().append('<h2>Falta poco para la segunda prueba</h2>');
+                });*/
+                $('h3, p').click(function(){
+                    $(this).siblings().hide();
+                });
+
+                $('button').click(function(){
+                    $(this).siblings().children().children().text('David Mix');
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id='myDiv'>
+            <p>Lista del curso</p>
+            <h3>Jose Ulloa</h3>
+            <h3>Alex Urtubia</h3>
+            <h3>Alvaro Castillo</h3>
+        </div>
+        <div>
+            <button>Click para agregar alumno</button>
+            <ul>
+                <li><h3>Andrea Fernandez</h3></li>
+                <li><h3>Ariel Gonzalez</h3></li>
+                <li><h3>Constanza Vega</h3></li>
+                <li><h3>Cristian Cuevas</h3></li>
+            </ul>
+        </div>
+    </body>
+</html>

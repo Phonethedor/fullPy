@@ -1,0 +1,68 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+div{
+    padding: 10px;
+    display: block;
+    margin: 5px;
+}
+
+#d1{
+    background-color: #B3B3B3;
+}
+
+#d2{
+    background-color: #CCCCCC;
+}
+
+#d3{
+    background-color: #FFFF9A;
+}
+
+#resp{
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 480px){
+    div{
+        margin: 10px;
+    }
+
+    #resp1:before{
+        content: 'Phone: Width ';
+    }
+
+    #resp:before{
+        content: 'less than or equal to 480px';
+    }
+}
+
+@media only screen and (min-width: 481px){
+    div{
+        margin: 10px;
+    }
+
+    #resp1:before{
+        content: 'Tablet: Width ';
+    }
+
+    #resp:before{
+        content: 'between 481px and 1023px';
+    }
+}
+
+@media only screen and (min-width: 1024px){
+    div{
+        margin: 5px;
+    }
+
+    #resp1:before{
+        content: 'Desktop: Width ';
+    }
+
+    #resp:before{
+        content: 'greather than or equal to 1024px';
+    }
+}

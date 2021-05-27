@@ -1,0 +1,261 @@
+*{
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+#contain{
+    width: 900px;
+    height: 520px;
+}
+
+#header{
+    background-color: #ffffff;
+    display: block;
+}
+
+#header h1{
+    display:block;
+    color: #474747;
+    padding: 5px;
+    height: px;
+}
+
+#header h1 img{
+    width: 80px;
+    height: 80px;
+    display: inline-block;
+    position: relative;
+    top: 25px;
+    background-color:transparent;
+}
+
+#header h1 span{
+    color: #22659E;
+}
+
+#header h2{
+    display: block;
+    padding: 10px;
+    color: #ffffff;
+    background: rgb(35,102,158);
+    background: linear-gradient(0deg, rgba(35,102,158,1) 0%, rgba(80,130,172,1) 50%, rgba(35,102,158,1) 100%);
+}
+
+#content{
+    background-color: #F2F2F2;
+    display:block;
+    height: 600px;
+    width: 900px;
+}
+
+#side{
+    display: inline-block;
+    vertical-align: top;
+    padding: 5px;
+    padding-top: 20px;
+    width: 170px;
+    height: 100%;
+    margin: 0px;
+    font-weight: bold;
+}
+#side h4 span{
+    color: #ff0000;
+}
+
+#side p{
+    padding-top: 15px;
+    font-size: 12px;
+}
+
+#side a{
+    text-align: center;
+    color: #ffffff;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 10px;
+}
+
+#a1{
+    margin-top: 20px;
+    background: rgb(42,107,163);
+    background: linear-gradient(0deg, rgba(42,107,163,1) 0%, rgba(99,152,196,1) 93%);
+    padding: 10px 25px 10px 25px;
+    margin-bottom: 2px;
+}
+
+#a2{
+    background: rgb(240,116,0);
+    background: linear-gradient(0deg, rgba(240,116,0,1) 0%, rgba(235,170,79,1) 93%);
+    padding: 10px 22.5px 10px 22.5px;
+    margin-top: 2px;
+}
+
+#side hr{
+    margin: 20px 0px 20px 0px;
+}
+
+#side ul{
+    background-image: url("img/ad_background.png");
+    width: 160px;
+    height: 230px;
+    list-style: none;
+    box-shadow: 0px 5px 5px 0px #000000;
+}
+
+#side ul li p{
+    text-align: center;
+    color: #ffffff;
+}
+
+#side ul li img{
+    margin: 10px 50px 10px 45px;
+    width: 60px;
+    height: 80px;
+}
+
+#side ul li a{
+    font-size: 11px;
+    margin: 0px 15px 0px 15px;
+    padding: 5px 25px 5px 25px;
+    background: rgb(0,193,223);
+    background: linear-gradient(0deg, rgba(0,193,223,1) 0%, rgba(120,208,223,1) 80%);
+    border-radius: 5px;
+}
+
+#main{
+    padding: 0px 10px 0px 10px;
+    display: inline-block;
+}
+
+#main p{
+    vertical-align:top;
+    color: #22659E;
+    display: inline-block;
+}
+
+#main p img{
+    width: 15px;
+    height: 15px;
+    vertical-align: center;
+    display: inline-block;    
+}
+
+#side2{
+    text-align: center;
+}
+
+#side2 img{
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    margin-left: 310px;
+    padding: 5px;
+}
+
+.sidetext1{
+    text-align: center;
+    color: #000000;
+    font-size: 8px
+}
+
+.sidetext2{
+    text-align: center;
+    color: #00C0DF;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.sidetext3{
+    text-align: center;
+    color: #000000;
+    font-size: 8px;
+}
+
+#hr2{
+    display: block;
+}
+
+#main2{
+    display: inline-block;
+}
+
+h3{
+    color: #22659E;
+    font-size: 20px;
+    padding: 5px 0px 5px 0px;
+}
+
+#main2 p{
+    color: #000000;
+    font-size: 12px;
+}
+
+#s3{
+    color: #0097AE;
+}
+
+#s4{
+    font-weight: bolder;
+}
+
+#main2 ul{
+    margin-left: 25px;
+    font-size: 12px;    
+}
+
+#main2 ul li{
+    padding-bottom: 5px;
+}
+
+#main2 img{
+    margin-top: 10px;
+    margin-left: 150px;
+    width: 200px;
+    height: 80px;
+}
+
+#main2 ol{
+    margin-left: 25px;
+    font-size: 12px;
+}
+
+#main2 ol li{
+    padding-bottom: 5px;
+}
+
+#bot{
+    margin-left: 50px;
+    display: inline-block;
+    border-top: 5px solid #0085E0;
+    border-left: 5px solid #0085E0;;
+    border-right: 5px solid #0085E0;;
+}
+
+#bot img{
+    padding: 5px;
+    width: 75px;
+    height: 75px;
+    display:inline-block;
+}
+
+#bot ul{
+    display:inline-block;
+    list-style-type: none;
+}
+
+#bot ul li{
+    font-size: 10px;
+}
+
+#bot ul li h3{
+    font-size: 16px;
+}
+
+.s1{
+    color:#7BDBEA;
+}
+
+.s2{
+    color: #C2EEF6;
+}

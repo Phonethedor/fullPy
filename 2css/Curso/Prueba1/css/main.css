@@ -1,0 +1,181 @@
+#img1{
+    background-image: url("../img/semilla.jpg");
+    background-repeat: no-repeat;
+    background-size: fill;
+}
+
+.sep1{
+    margin: 40%;
+}
+
+.jumbotron{
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+    background-color: #e9ecef;
+    border-radius: .3rem;
+}
+
+.jumbotron p{
+    text-align: center;
+    padding: 2% 30% 2% 30%;
+}
+
+.row .imgr1{
+    width: 25%;
+    height: 45%; 
+    margin-left: 38%; 
+}
+
+.row .h5r1{
+    text-align: center;
+    font-weight: bold;
+}
+
+.row .pr1{
+    text-align: center;
+}
+
+.row .h5r2{
+    text-align: center;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+.row .pr2{
+    text-align: center;
+    color: #FFFFFF;
+    padding: 4em;
+}
+
+h4 {
+    text-align: center;
+    font-weight: bolder;
+}
+
+.p1{
+    text-align:center;
+    padding:0 10%;
+}
+
+.img3{
+    margin-left: 30%;
+}
+
+.row .h4{
+    color: #5E8039;
+    text-align: center;
+    padding-top: 10%;
+    font-size: 20px;
+}
+
+.row .p2{
+    margin-top: 10%;
+    text-align: center;
+    font-size: 15px;
+}
+
+.row .p2-1{
+    margin-top: 18%;
+    text-align:center;
+    font-size: 15px;
+}
+
+#cont2{
+    padding: 7%;
+    background-color: #5E8039;
+}
+
+#cont2 h3{
+    text-align: center;
+    color: #FFFFFF;
+}
+
+h3 {
+    text-align: center;
+    color: #5E8039;
+}
+
+.imgc{
+    border-radius: 50%;
+    margin-bottom: 5%;
+    margin-left: 25%;
+}
+
+.p3{
+    text-align: center;
+    font-size: 14px;
+}
+
+.sp1{
+    font-weight: bold;
+}
+
+.center{
+    margin-left:38%;
+}
+
+.social1{
+    height: 7%;
+    width: 6%;
+    margin-right: 2%;
+    margin-bottom: 2em;
+}
+
+.imgce{
+    margin-top: 100%;
+    height:15%;
+}
+
+.mg-5{
+    margin: 0.5em;
+}
+
+.p4{
+    font-size: 14px;
+}
+
+.pd1{
+    padding: 5% 15%;
+}
+
+.wrap{
+    height: 20em;
+    width: auto;
+}
+
+#caja1{
+    font-size: 18px;
+    padding: 1em;
+    margin-left: 15%;
+    width: 13em;
+    height: 13em;
+    border: 1px solid #ffffff;
+    float: left;
+}
+
+.caja2{
+    font-size: 18px;
+    padding: 1em;
+    width: 13em;
+    height: 13em;
+    border: 1px solid #ffffff;
+    float: left;
+}
+
+.social2{
+    width: 20%;
+    height: 20%;
+    margin-left: 40%;
+}
+
+#p5 span{
+    color: #fac60e;
+}
+
+.p6{
+    text-align: right;
+}
+
+.p6 span{
+    font-weight: bold;
+}

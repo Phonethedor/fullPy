@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script><!--esta version se utiliza en clase-->
+    <title>jqueryFinal</title>
+    <script>
+        $(document).ready(function(){
+            $('.alert').click(function(){
+                alert("Me han clickeado");
+            });
+
+            $('.nuevo_btn').click(function(){
+                $('#buttons').append("<button class='alert'>Soy un boton generado dinamicamente</button><br>");
+            });
+
+            $(document).on('click','.alert', function(){
+                alert("me han clickeado");
+            });
+
+            
+        });
+    </script>
+
+    <style>
+        button{
+            width: 25%;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>Contenido dinamico</h3>
+    <div>
+        <button class='alert'>Presioname para lanzar un mensaje!</button><br>
+        <button class='alert'>Presioname para lanzar un mensaje!</button><br>
+        <button class='alert'>Presioname para lanzar un mensaje!</button><br>
+        <button class='nuevo_btn'>Presioname para agregar un boton!</button>
+    </div>
+    <h3>Contenido generado dinamicamente</h3>
+    <div id='buttons'></div>
+</body>
+</html>
