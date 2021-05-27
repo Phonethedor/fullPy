@@ -1,2 +1,48 @@
 /*Comandos Git Windows*/
 
+~/ es atajo para /home/user
+
+cat = concatenate // se utiliza asi cat "nombre del archivo".txt o con relativo
+//ejemplo cat document/archivo.txt
+
+pwd = directorio actual donde se encuentra
+
+ls = listar archivos en el directorio actual
+
+ls -l = lista archivos en el directorio con mas detalles
+
+ls -a = lista todos los archivos, incluso los ocultos
+
+cd . = nada
+
+cd .. = cambia al directorio padre
+
+cd / = cambia al directorio raiz
+
+cd "direccion exacta del directorio" = te cambia a ese directorio
+
+mkdir "nombre directorio" = crea un nuevo directorio
+
+rm "nombre directorio" = elimina un directorio vacio
+
+rm -rf "nombre directorio" = elimina un directorio no vacio
+
+touch "nombreArchivo.extension" = crea un archivo con la extension indicada
+
+rm "nombreArchivo.extension" = elimina el archivo especificado
+
+mv = sirve para cambiar nombre o mover un archivo
+//ejemplo
+mv index.html nombreNuevo.html
+mv index.html ../index.html
+
+cp index.html copy.html = realiza copia en el mismo directorio
+
+cp -rf nombreDirectorio nombreCopia = copia el directorio completo
+
+open . = equivalente de start . en windows, inicia el GUI para ver el directorio
+
+Nota para ingresar directorios con espacios se deben colocar entre comillas
+
+sudo = prefijo para autodefinir super usuario (mas permisos)
+
