@@ -46,3 +46,11 @@ Nota para ingresar directorios con espacios se deben colocar entre comillas
 
 sudo = prefijo para autodefinir super usuario (mas permisos)
 
+git log = muestra un registro de los distintos commit o push o etc que se han realizado y su pertinente Codingo
+
+git diff --stat "codigo" = muestra los cambios realizados por la accion asociada al codigo en cuestion (los primeros 7 caracteres o hash)
+
+git revert hash = reversa todos los cambios realizados por el commit original si se le agrega el parametro -n 
+no lo realiza de inmediato sino, hasta cuando se haga el siguiente commit
+
+git reset hash = 
