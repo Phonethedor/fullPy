@@ -1,0 +1,86 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. Todos los derechos reservados.
+
+
+    Directorio: C:\Users\Alvaro\Desktop
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        28-05-2021     18:36                basic_repo
+
+
+PS C:\Users\Alvaro\Desktop> cd basic_repo
+PS C:\Users\Alvaro\Desktop\basic_repo> git init
+Initialized empty Git repository in C:/Users/Alvaro/Desktop/basic_repo/.git/
+usage: git remote add [<options>] <name> <url>
+
+    -f, --fetch           fetch the remote branches
+    --tags                import all tags and associated objects when fetching
+                          or do not fetch any tag at all (--no-tags)
+    -m, --master <branch>
+                          master branch
+    --mirror[=(push|fetch)]
+                          set up remote as a mirror to push to or fetch from
+
+PS C:\Users\Alvaro\Desktop\basic_repo> git status
+On branch master
+
+No commits yet
+
+nothing to commit (create/copy files and use "git add" to track)
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        Nuevo documento de texto - copia.txt
+        Nuevo documento de texto.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+PS C:\Users\Alvaro\Desktop\basic_repo> git add .
+PS C:\Users\Alvaro\Desktop\basic_repo> git commit -m "primerCommit" 
+[master (root-commit) d1682ed] primerCommit
+ 3 files changed, 3 insertions(+)
+ create mode 100644 Nuevo documento de texto - copia (2).txt
+ create mode 100644 Nuevo documento de texto.txt
+ PS C:\Users\Alvaro\Desktop\basic_repo> git remote add origin https://github.com/Phonethedor/basic_repo.git
+ PS C:\Users\Alvaro\Desktop\basic_repo> git push --set-upstream origin master
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Delta compression using up to 6 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 259 bytes | 259.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/Phonethedor/basic_repo.git
+ * [new branch]      master -> master
+Branch 'master' set up to track remote branch 'master' from 'origin'.
+PS C:\Users\Alvaro\Desktop\basic_repo> git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+        new file:   Nuevo documento de texto - copia (3).txt
+        new file:   Nuevo documento de texto - copia (4).txt
+        new file:   Nuevo documento de texto - copia (5).txt
+
+Changes not staged for commit:
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   Nuevo documento de texto - copia.txt
+        modified:   Nuevo documento de texto.txt
+
+PS C:\Users\Alvaro\Desktop\basic_repo> git add .
+PS C:\Users\Alvaro\Desktop\basic_repo> git commit -m "v2"
+[master 76f6dcd] v2
+ 5 files changed, 5 insertions(+), 2 deletions(-)
+ create mode 100644 Nuevo documento de texto - copia (3).txt
+ create mode 100644 Nuevo documento de texto - copia (4).txt
+ create mode 100644 Nuevo documento de texto - copia (5).txt
+PS C:\Users\Alvaro\Desktop\basic_repo> git push
+Enumerating objects: 7, done.
+Counting objects: 100% (6/6), done.
+Delta compression using up to 6 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (4/4), 352 bytes | 352.00 KiB/s, done.
+Total 4 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/Phonethedor/basic_repo.git
+   d1682ed..76f6dcd  master -> master
