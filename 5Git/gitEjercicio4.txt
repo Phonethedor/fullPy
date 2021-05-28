@@ -1,0 +1,47 @@
+/*
+.gitIgnore
+secret.js
+
+*.txt
+
+log*
+
+*/
+
+/*
+PS C:\Users\Alvaro\Desktop\basic_repo> git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+  (use "git restore --staged <file>..." to unstage)
+        new file:   Packages/public.html
+
+PS C:\Users\Alvaro\Desktop\basic_repo> git add .
+PS C:\Users\Alvaro\Desktop\basic_repo> git commi -m "v1"
+git: 'commi' is not a git command. See 'git --help'.
+
+        column
+        config
+PS C:\Users\Alvaro\Desktop\basic_repo> git status       
+Your branch is up to date with 'origin/master'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   Packages/public.html
+
+PS C:\Users\Alvaro\Desktop\basic_repo> git add .
+PS C:\Users\Alvaro\Desktop\basic_repo> git commit -m "v1"
+[master 0599601] v1
+ 1 file changed, 6 insertions(+)
+ create mode 100644 Packages/public.html
+PS C:\Users\Alvaro\Desktop\basic_repo> git push
+Enumerating objects: 6, done.
+Counting objects: 100% (6/6), done.
+Delta compression using up to 6 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 381 bytes | 381.00 KiB/s, done.
+Total 4 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/Phonethedor/basic_repo.git
+   bbfbc19..0599601  master -> master
+*/
