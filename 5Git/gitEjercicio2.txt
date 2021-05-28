@@ -1,0 +1,76 @@
+
+Alvaro@OP MINGW64 ~/Desktop/FsPython (master)
+$ cd ..
+
+Alvaro@OP MINGW64 ~/Desktop (master)
+$ mkdir test
+
+Alvaro@OP MINGW64 ~/Desktop (master)
+$ cd test
+
+Alvaro@OP MINGW64 ~/Desktop/test (master)
+$ touch index.html
+
+Alvaro@OP MINGW64 ~/Desktop/test (master)
+$ touch styles.css
+
+Alvaro@OP MINGW64 ~/Desktop/test (master)
+$ git init
+Initialized empty Git repository in C:/Users/Alvaro/Desktop/test/.git/
+
+Alvaro@OP MINGW64 ~/Desktop/test (master)
+$ git add .
+
+Alvaro@OP MINGW64 ~/Desktop/test (master)
+$ git commit -m "commitInicial"
+[master (root-commit) bb7eafd] commitInicial
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 index.html
+ create mode 100644 styles.css
+
+Alvaro@OP MINGW64 ~/Desktop/test (master)
+$ git add .
+
+Alvaro@OP MINGW64 ~/Desktop/test (master)
+$ git commit -m "actualizacion de html"
+[master 40c34dd] actualizacion de html
+ 1 file changed, 12 insertions(+)
+
+Alvaro@OP MINGW64 ~/Desktop/test (master)
+$ git add .
+
+Alvaro@OP MINGW64 ~/Desktop/test (master)
+$ git commit -m "actualizacion de css"
+[master d6f7d2a] actualizacion de css
+ 1 file changed, 4 insertions(+)
+
+Alvaro@OP MINGW64 ~/Desktop/test (master)
+$ git log
+commit d6f7d2a5fb6f956a125283d6b93bb113abde0982 (HEAD -> master)
+Author: Phonethedor <alvaroc.giovannim@gmail.com>
+Date:   Thu May 27 21:06:47 2021 -0400
+
+    actualizacion de css
+
+commit 40c34dd88f1475f2ae14e4a9e6c5623fd545e888
+Author: Phonethedor <alvaroc.giovannim@gmail.com>
+Date:   Thu May 27 21:05:48 2021 -0400
+
+    actualizacion de html
+
+commit bb7eafd4d84a5fdf0ae73f6f0cb74595bc8c7255
+Author: Phonethedor <alvaroc.giovannim@gmail.com>
+Date:   Thu May 27 21:04:37 2021 -0400
+
+    commitInicial
+
+Alvaro@OP MINGW64 ~/Desktop/test (master)
+$ git revert d6f7d2a
+
+Alvaro@OP MINGW64 ~/Desktop/test (master)
+$ git add .
+
+Alvaro@OP MINGW64 ~/Desktop/test (master)
+$ git commit -m "cambiosNuevamente"
+[master c119b8a] cambiosNuevamente
+ 1 file changed, 4 insertions(+)
