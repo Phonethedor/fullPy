@@ -1,6 +1,6 @@
 $(document).ready(function(){
     for (let x = 1; x<=151; x++){
-        $('#pokemon').append("<img id="+x+" src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/"+x+".png'>");
+        $('#pokemon').append("<a href='#'><img id="+x+" src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/"+x+".png'></a>");
     }
     $('img').click(function(){
         $('#datos').empty();
