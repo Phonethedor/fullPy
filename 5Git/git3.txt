@@ -5,3 +5,7 @@
 5- git remote add origin https://github.com/Phonethedor/CodingDojo.git
 6- git push origin master 5 y 6 solo la primera vez
 7- git push
+
+git clone url a clonar = clona el repositorio en la carpeta
+
+git fetch origin master = para hacer update sin clonar
