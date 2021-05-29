@@ -5,19 +5,19 @@ $(document).ready(function(){
     $('img').click(function(){
         $('#datos').empty();
         let x = $(this).attr('id');
-        $.get('https://pokeapi.co/api/v2/pokemon/'+x+'/',function(res){
-            $('#datos').append('<h2>'+res.name+'</h2>');
+        $.get('https://pokeapi.co/api/v2/pokemon/'+x+'/',function(datos){
+            $('#datos').append('<h2>'+datos.name+'</h2>');
             $('#datos').append("<img id="+x+" src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/"+x+".png'><br>");
             $('#datos').append('<h2>Tipos</h2>');
             $('#datos').append('<ul>');
-            for (let i = 0; i<res.types.length;i++){
-                $('#datos').append('<li>'+res.types[i].type.name+'</li>');
+            for (let i = 0; i<datos.types.length;i++){
+                $('#datos').append('<li>'+datos.types[i].type.name+'</li>');
             }
             $('#datos').append('</ul>')
             $('#datos').append('<h2>Altura</h2>')
-            $('#datos').append('<p>'+res.height+'</p>');
+            $('#datos').append('<p>'+datos.height+'</p>');
             $('#datos').append('<h2>Peso</h2>');
-            $('#datos').append('<p>'+res.weight+'</p>');
+            $('#datos').append('<p>'+datos.weight+'</p>');
         }, 'json');
     });
 });
