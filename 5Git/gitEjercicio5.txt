@@ -1,0 +1,4 @@
+1- en la URL del proyecto en cuestion, realice el Fork
+2- en la copia del proyecto (fork) realice cambios
+3- luego hice el commit
+4- por ultimo realice el pull request
