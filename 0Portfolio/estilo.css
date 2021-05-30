@@ -2,3 +2,31 @@
     margin: 0;
     padding: 0;
 }
+
+.contenedor{
+    width: 80%;
+    display: block;
+    background: rgb(104,189,72);
+    background: linear-gradient(90deg, rgba(104,189,72,1) 33%, rgba(138,139,0,1) 53%);
+    padding: 10px;
+}
+
+#header{
+    padding: 10px;
+    background-color: brown;
+    display: block;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+#img{
+    display: inline-block;
+}
+
+img{
+    width: 30%;
+}
+
+#content{
+    display: inline-block;
+}
