@@ -3,7 +3,7 @@ print("Hola mundo")
 
 # 2. imprimir "Hola Noelle!" con el nombre en una variable
 name = "Noelle"
-print("Hola ",name)	# con una coma
+print("Hola",name)	# con una coma
 print("Hola "+name)	# con un +
 
 # 3. imprimir "Hola 42!" con un numero en una variable
