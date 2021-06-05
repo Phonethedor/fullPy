@@ -67,3 +67,17 @@ for val in "string":
         continue
     print(val)
 # salida: s, t, r, n, g
+
+#switch case
+
+#numero = 5
+
+#with switch(numero) as n:
+    #if n.case(1):
+        #print('numero 1')
+    #if n.case(2):
+        #print('numero 2')
+    #if n.case(3):
+        #print('numero 3')
+    #if n.default():
+        #print('error')
