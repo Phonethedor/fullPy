@@ -8,11 +8,12 @@ for x in range (5,1001,5):
 
 #3
 for x in range (1,101):
-    print(x)
     if(x % 10 == 0):
         print("Dojo")
     elif(x % 5 == 0):
         print("Coding")
+    else:
+        print(x)
 
 #4
 suma = 0
