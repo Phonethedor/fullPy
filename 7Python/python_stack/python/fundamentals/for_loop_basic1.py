@@ -9,10 +9,10 @@ for x in range (5,1001,5):
 #3
 for x in range (1,101):
     print(x)
-    if(x % 5 == 0):
-        print("Coding")
     if(x % 10 == 0):
         print("Dojo")
+    elif(x % 5 == 0):
+        print("Coding")
 
 #4
 suma = 0
