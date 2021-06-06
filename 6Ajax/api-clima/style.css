@@ -1,0 +1,20 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.contenedor{
+    padding: 25px;
+}
+
+span{
+    margin-right: 10px;
+}
+
+input{
+    margin-right: 8px;
+}
+
+.datos{
+    padding: 20px;
+}
