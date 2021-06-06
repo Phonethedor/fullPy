@@ -6,21 +6,64 @@
         <title>Ninja-gato</title>
     </head>
     <script>
-        $("#a0").click(function(){
-            if($(this).attr('src')==$(this).attr('img/cat0.png')){
-                let a = $(this).attr('img/ninja0.png');
-                $(this).attr('src','img/ninja0.png');
-            }else{
-                let b = $(this).attr('img/cat0.png');
-                $(this).attr('src', b);
-            }
+        $(document).ready(function(){
+            $("#b0").hide()
+            $("#b1").hide()
+            $("#b2").hide()
+            $("#b3").hide()
+            $("#b4").hide()
+            $("#a0").click(function(){
+                $(this).hide();
+                $('#b0').show();
+            });
+            $("#b0").click(function(){
+                $(this).hide();
+                $('#a0').show();
+            });
+            $("#a1").click(function(){
+                $(this).hide();
+                $('#b1').show();
+            });
+            $("#b1").click(function(){
+                $(this).hide();
+                $('#a1').show();
+            });
+            $("#a2").click(function(){
+                $(this).hide();
+                $('#b2').show();
+            });
+            $("#b2").click(function(){
+                $(this).hide();
+                $('#a2').show();
+            });
+            $("#a3").click(function(){
+                $(this).hide();
+                $('#b3').show();
+            });
+            $("#b3").click(function(){
+                $(this).hide();
+                $('#a3').show();
+            });
+            $("#a4").click(function(){
+                $(this).hide();
+                $('#b4').show();
+            });
+            $("#b4").click(function(){
+                $(this).hide();
+                $('#a4').show();
+            });
         });
     </script>
     <body>
         <img id="a0" src="img/cat0.png"><br>
+        <img id="b0" src="img/ninja0.png"><br>
         <img id="a1" src="img/cat1.png"><br>
+        <img id="b1" src="img/ninja1.png"><br>
         <img id="a2" src="img/cat2.png"><br>
+        <img id="b2" src="img/ninja2.png"><br>
         <img id="a3" src="img/cat3.png"><br>
-        <img id="a4" src="img/cat4.png">
+        <img id="b3" src="img/ninja3.png"><br>
+        <img id="a4" src="img/cat4.png"><br>
+        <img id="b4" src="img/ninja4.png"><br>
     </body>
 </html>
