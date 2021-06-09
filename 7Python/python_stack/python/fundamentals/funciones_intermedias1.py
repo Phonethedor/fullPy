@@ -1,6 +1,6 @@
 import random
 
-def randint(min=0   ,max=0):
+def randint(min = 0 , max = 0):
     if (min == 0 and max == 0):
         return random.randint(0,100)
     elif (min==0 and max!=0 and max > 0):
