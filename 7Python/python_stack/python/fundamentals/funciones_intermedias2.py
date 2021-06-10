@@ -54,3 +54,5 @@ def printInfo (some_dict):
         for x in list:
             print(x)
         print(x)
+        
+printInfo(dojo)
