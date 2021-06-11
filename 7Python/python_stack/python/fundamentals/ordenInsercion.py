@@ -6,3 +6,4 @@ def insercion(list):
             list[j + 1] = list[j]
             j = j - 1
         list[j + 1] = x
+    return list
