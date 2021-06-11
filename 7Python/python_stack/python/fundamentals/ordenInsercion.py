@@ -7,3 +7,7 @@ def insercion(list):
             j = j - 1
         list[j + 1] = x
     return list
+
+lista = [10,2,8,1,0]
+
+print(insercion(lista))
