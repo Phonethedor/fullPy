@@ -1,5 +1,5 @@
 import cv2
-#importo el archivo cascade para caras frontales
+#añado el archivo cascade para caras frontales
 faceCascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 # asigno la direccion y leo las imagenes
 imagen1 = r'E:\Users\alvar\Desktop\FsPython\7Python\python_stack\python\fundamentals\tarea_openCv\1.jpg'
