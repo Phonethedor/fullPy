@@ -1,34 +1,23 @@
 import cv2
-
 # Load the cascade
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-
-# To capture video from webcam. 
+# para capturar video desde la webCam
 cap = cv2.VideoCapture(0)
-# To use a video file as input 
-# cap = cv2.VideoCapture('filename.mp4')
-
 while True:
-    # Read the frame
+    # Analiza el cuadro
     _, img = cap.read()
-
-    # Convert to grayscale
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
-    # Detect the faces
-    faces = face_cascade.detectMultiScale(gray, 1.1, 4)
-
-    # Draw the rectangle around each face
-    for (x, y, w, h) in faces:
-        cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
-
-    # Display
+    # lo convierto a escala de gris
+    gris = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    # detecta caras
+    caras = face_cascade.detectMultiScale(gris, 1.1, 4)
+    # añado rectangulo verde
+    for (x, y, w, h) in caras:
+        cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
+    # muestro el resultado
     cv2.imshow('img', img)
-
-    # Stop if escape key is pressed
+    # se detiene si presiono escape
     k = cv2.waitKey(30) & 0xff
     if k==27:
-        break
-        
-# Release the VideoCapture object
+        break        
+# fin de la captura
 cap.release()
