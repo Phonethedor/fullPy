@@ -2,10 +2,8 @@ import cv2
 #añado el archivo cascade para caras frontales
 faceCascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 # asigno la direccion y leo las imagenes
-imagen1 = r'E:\Users\alvar\Desktop\FsPython\7Python\python_stack\python\fundamentals\tarea_openCv\1.jpg'
-img1 = cv2.imread(imagen1)
-imagen2 = r'E:\Users\alvar\Desktop\FsPython\7Python\python_stack\python\fundamentals\tarea_openCv\2.jpeg'
-img2 = cv2.imread(imagen2)
+img1 = cv2.imread('1.jpg')
+img2 = cv2.imread('2.jpeg')
 # Lo convierto a escala de gris
 gris1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
 gris2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
