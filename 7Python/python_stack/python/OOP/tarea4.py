@@ -30,7 +30,6 @@ class User:
         self.name = name
         self.email = email
         self.account = BankAccount(int_rate=2, balance= 0)
-        return self
     def make_deposit(self, amount):	
         self.account.deposit(amount)
         return self
