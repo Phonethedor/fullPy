@@ -1,6 +1,3 @@
-#estructuras de datos
-#listas vinculadas
-#nodo = clase con dos atributos (valor y siguiente), utilizada para la clase lista vinculada
 class SLNode:
     def __init__(self, value):
         self.value = value
@@ -22,15 +19,15 @@ class SList:
                 runner = runner.next
             return self
     def add_to_back(self, val):
-        if self.head == None:	# si la lista está vacia
-            self.add_to_front(val)	# ejecuta el método add_to_front
-            return self	# asegurémonos de que el resto de esta función no suceda si agregamos al frente
+        if self.head == None:	
+            self.add_to_front(val)	
+            return self	
         new_node = SLNode(val)
         runner = self.head
         while (runner.next != None):
             runner = runner.next
-        runner.next = new_node	# Incrementa el corredor al siguiente nodo de la lista.
-        return self                 # retorna self para permitir el encadenamiento
+        runner.next = new_node	
+        return self        
 
-my_list = SList()	# crear una nueva instancia de una lista
+my_list = SList()
 my_list.add_to_front("are").add_to_front("Linked lists").add_to_back("fun!").print_values()
