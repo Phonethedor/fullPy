@@ -104,3 +104,4 @@ zoo1 = zoo('zoo metropolitano')
 
 zoo1.agregarMasa()
 zoo1.displayAll()
+input("Presione ENTER para salir")
