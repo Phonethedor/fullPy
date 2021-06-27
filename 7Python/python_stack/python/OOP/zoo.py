@@ -87,7 +87,6 @@ class zoo:
     def agregarMasa(self):
         a = ""
         while a.upper() not in ('N', 'NO'):
-            a = ""
             b = input("ingrese el tipo de animal que desea ingresar (lobo/tigre/leon) :")
             if b.lower() in ('leon'):
                 self.animales.append(leon())
