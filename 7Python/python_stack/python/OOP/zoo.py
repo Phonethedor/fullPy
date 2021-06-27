@@ -86,24 +86,21 @@ class zoo:
             self.animales[a].alimentar()
     def agregarMasa(self):
         a = ""
-        while a.upper() not in ('N', 'NO', 'S', 'SI'):
+        while a.upper() not in ('N', 'NO'):
             a = ""
             b = input("ingrese el tipo de animal que desea ingresar (lobo/tigre/leon) :")
-            if b.lower == "leon":
+            if b.lower() in ('leon'):
                 self.animales.append(leon())
-            elif b.lower == "tigre":
+            elif b.lower() in ('tigre'):
                 self.animales.append(tigre())
-            elif b.lower == "lobo":
+            elif b.lower() in ('lobo'):
                 self.animales.append(lobo())
             else:
                 print("Incorrecto")
-            while a.upper() not in ('N', 'NO', 'S', 'SI'):
-                a = input('¿Quieres continuar? (S/N): ')
+            a = input('¿Quieres continuar? (S/N): ')
         return self
 
 zoo1 = zoo('zoo metropolitano')
 
-zoo1.addLeon()
-zoo1.displayAll()
-zoo1.alimentarAll()
+zoo1.agregarMasa()
 zoo1.displayAll()
