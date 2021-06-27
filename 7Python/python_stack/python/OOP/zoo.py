@@ -5,6 +5,7 @@ class animal:
         self.felicidad = 50
         self.hambre = 50
     def displayInfo(self):
+        print("*"*32)
         print("Nombre :",self.nombre)
         print("Edad :",self.edad)
         print("Felicidad :",self.felicidad)
