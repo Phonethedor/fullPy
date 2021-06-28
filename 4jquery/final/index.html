@@ -3,30 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script><!--esta version se utiliza en clase-->
+    <script src="jS.js"></script>
+    <link rel="stylesheet" href="style.css">
     <title>jqueryFinal</title>
-    <script>
-        $(document).ready(function(){
-            $('.alert').click(function(){
-                alert("Me han clickeado");
-            });
-
-            $('.nuevo_btn').click(function(){
-                $('#buttons').append("<button class='alert'>Soy un boton generado dinamicamente</button><br>");
-            });
-
-            $(document).on('click','.alert', function(){
-                alert("me han clickeado");
-            });
-
-            
-        });
-    </script>
-
-    <style>
-        button{
-            width: 25%;
-        }
-    </style>
 </head>
 
 <body>

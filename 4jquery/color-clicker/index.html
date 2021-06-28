@@ -5,55 +5,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css">
         <title>The Codingdojo ColorClicker!</title>
-        <script type="text/javascript">
-            function random_color(){
-                var rgb = ['a','b','c','d','e','f','0','1','2','3','4','5','6','7','8','9'];
-                color = '#';
-                for(var i = 0; i < 6; i++) {
-                    x = Math.floor((Math.random()*16))
-                    color += rgb[x]; 
-                }
-                return color;
-            }
-            $(document).ready(function(){
-                $('#large_box').click(function(){ 
-                    $(this).css('background-color', random_color());
-                    $('.side_box').css('background-color', random_color());
-                    $('.middle_box').css('background-color', random_color());
-                })
-                $('.side_box').click(function(event){
-                    event.stopPropagation();
-                    $(this).siblings().css('background-color', random_color());
-                })
-                $('.middle_box').click(function(event){
-                    event.stopPropagation();
-                    $(this).parent().css('background-color', random_color());
-                })
-            });
-        </script>
-        <style type="text/css">
-            *{
-                font-family: sans-serif;
-            }
-            h2, h1, h3 {
-                text-align: center;
-            }
-            #large_box {
-                margin: 0px auto;
-                margin-top: 30px;
-                background-color: lightblue;
-                width: 1200px;
-                height: 300px; 
-            }
-            #large_box div {
-                background-color: blue;
-                display: inline-block;
-                width: 350px;
-                height: 130px;
-                margin: 60px 20px;
-            }
-        </style>
+        <script src="jS.js"></script>
     </head>
     <body>
         <h1>¡El ColorClicker de Codingdojo! </h1>

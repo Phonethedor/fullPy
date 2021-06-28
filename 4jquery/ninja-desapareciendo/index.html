@@ -3,33 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <link rel="stylesheet" href="style.css">
+        <script src="Js.js"></script>
         <title>Ninja-desapareciendo</title>
-        <style>
-            .container{
-                width: 100%;
-            }
-
-            img{
-                height: 100px;
-            }
-        </style>
-        <script>
-            var img = "";
-            for (let x = 0; x < 8; x++){
-                img += '<img src="ninja.jpg">';
-            };
-            $(document).ready(function(){
-                $('.container').append(img)
-                $('.container').append("<br><button id='devolver'>Devolver</button>")
-                $('img').click(function(){
-                    $(this).hide("slow");
-                });
-                $('#devolver').click(function(){
-                    $('img').show("slow");
-                });
-            });
-        </script>
-
     </head>
     <body>
         <div class="container">

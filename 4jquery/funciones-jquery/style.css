@@ -1,0 +1,31 @@
+img{
+    width: 2em;
+    display: block;
+}
+
+.red{
+    color: red;
+}
+
+.container{
+    padding: 20px;
+}
+
+.boton{
+    display: inline-block;
+}
+
+#titulo{
+    display: inline-block;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#textor{
+    font-size: 15px;
+}
+
+#texto{
+    font-size: 15px;
+}
