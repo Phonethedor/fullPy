@@ -29,10 +29,13 @@ class unidad(carta):
 
 #declaro objeto efecto que hereda de carta
 class efecto(carta):
-    def __init__(self, efecto, numero):
+    def __init__(self, efecto, numero, txt):
         super().__init__()
         self.efecto = efecto
         self.numero = numero
+        self.txt = txt
+    def texto(self):
+        return self.txt
     def usar(self, objetivo):
         if type(objetivo) in ('unidad'):
             if self.efecto in ('hp'):
@@ -48,10 +51,10 @@ class efecto(carta):
 ninjaRojo = unidad ('Ninja Cinturon Rojo', 3, 3, 4)
 ninjaNegro = unidad ('Ninja Cinturon Negro', 4, 5, 4)
 
-#declaro efectos (nombre, costo, efecto, numero)
-algo = efecto('Algoritmo Duro', 2, 'hp', 3)
-promesa = efecto('Promesa No Manejada', 1, 'hp', -2)
-progrP = efecto('Programacion en pareja', 3, 'atk', 2)
+#declaro efectos (nombre, costo, efecto, numero, texto)
+algo = efecto('Algoritmo Duro', 2, 'hp', 3, 'aumentar la resistencia del objetivo en 3')
+promesa = efecto('Promesa No Manejada', 1, 'hp', -2, 'reducir la resistencia del objetivo en 2')
+progrP = efecto('Programacion en pareja', 3, 'atk', 2, 'aumentar el poder del objetivo en 2')
 
 if __name__ == '__main__':
     app.run()
