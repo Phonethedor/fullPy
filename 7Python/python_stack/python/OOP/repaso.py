@@ -27,3 +27,9 @@ def menorProm(sueldos):
     for i in range (len(sueldos)):
         if sueldos[i] < prom:
             print(sueldos[i])
+
+sueldo1 = agregarSueldos()
+impSueldos(sueldo1)
+print(contarSueldos(sueldo1))
+print(promSueldos(sueldo1))
+menorProm(sueldo1)
