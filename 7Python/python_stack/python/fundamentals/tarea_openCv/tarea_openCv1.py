@@ -7,8 +7,8 @@ img2 = cv2.imread('2.jpeg')
 # Lo convierto a escala de gris
 gris1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
 gris2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
-caras1 = faceCascade.detectMultiScale(gris1, 1.1, 2,)
-caras2 = faceCascade.detectMultiScale(gris2, 1.1, 2,)
+caras1 = faceCascade.detectMultiScale(gris1, 1.1, 10)
+caras2 = faceCascade.detectMultiScale(gris2, 1.1, 10)
 #añado rectangulo verde
 for (x, y, w, h) in caras1:
     cv2.rectangle(img1, (x,y), (x+w, y+h), (0, 255, 0), 2)
