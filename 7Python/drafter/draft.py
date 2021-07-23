@@ -3,10 +3,10 @@ import imageio
 import cv2
 import scipy.ndimage
 
-img='1.jpg'
+img='1.jpeg'
 
 def grayscale(rgb):
-    return np.dot(rgb[...,:3],[0.299,0.587,0.114])
+    return np.dot(rgb[...,:3],[0.299,0.587,0.184])
 
 def dodge(front,back):
     result=front*255/(255-back)
