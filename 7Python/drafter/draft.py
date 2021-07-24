@@ -6,7 +6,7 @@ import scipy.ndimage
 img='1.jpeg'
 
 def grayscale(rgb):
-    return np.dot(rgb[...,:3],[0.299,0.587,0.184])
+    return np.dot(rgb[...,:3],[0.299,0.155,0.184])
 
 def dodge(front,back):
     result=front*255/(255-back)
