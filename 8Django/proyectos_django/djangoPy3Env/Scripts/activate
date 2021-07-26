@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\alvar\Desktop\fullPy\8Django\proyectos_django\djangoPy3Env"
+VIRTUAL_ENV="E:\Users\alvar\Desktop\FsPython\8Django\proyectos_django\djangoPy3Env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
