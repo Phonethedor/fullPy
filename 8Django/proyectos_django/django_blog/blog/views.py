@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import HttpResponse, redirect
 from django.http import JsonResponse
+from django.template import Template, Context
 
 def root(request):
     return redirect("/blogs")
@@ -59,3 +60,14 @@ def json(request):
         'meh': True
     }
     return JsonResponse(datos)
+
+def datos(request):
+    array = [1,2,3,4,5,6, 'op']
+
+    template = open("C:/Users/alvar\Desktop/fullPy/8Django/proyectos_django/django_blog/blog/paginas/index.html")
+    read = Template(template.read())
+    template.close()
+    contexto = Context({'Datos':array})
+    documento = read.render(contexto)
+
+    return HttpResponse(documento)
