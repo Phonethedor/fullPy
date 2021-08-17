@@ -5,7 +5,7 @@ from time import gmtime, strftime, localtime
 def date(request):
     context = {
         "time" : [
-            strftime("%m-%d-%y", localtime()),
+            strftime("%d " "%b " "%y", localtime()),
             strftime("%H: %M: %S", localtime())
             ]
     }
