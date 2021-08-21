@@ -1,0 +1,12 @@
+div{
+    margin: 5rem 35rem;
+}
+
+h1{
+    border: 2px solid black;
+    padding: 1rem;
+}
+
+input{
+    box-shadow: 0 2px 2px 0;
+}

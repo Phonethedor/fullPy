@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Generador palabras al azar</title>
+</head>
+<body>
+    <div>
+        <h2>Palabra al azar (Intento #{{ contador }})</h2>
+        <br>
+        <h1>{{ genAzar }}</h1><br>
+        <form action="azar" method = "POST">
+            {% csrf_token %}
+            <input type="submit" value='Generar'>
+            <form action="reinicio" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="Reiniciar">
+            </form>
+        </form>
+    </div>
+</body>
+</html>
