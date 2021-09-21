@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load static %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Shows</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="wrapper p-5">
+            <h1 class="mb-5">All Shows</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Network</th>
+                    <th scope="col">Release Date</th>
+                    <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for show in lista_shows %}
+                    <tr>
+                        <td class="table-primary">{{show.id}}</td>
+                        <td class="table-primary">{{show.title}}</td>
+                        <td class="table-primary">{{show.network}}</td>
+                        <td class="table-primary">{{show.release_date}}</td>
+                        <td class="table-primary">
+                            <a href="/shows/{{ show.id }}" class="btn btn-primary">Show</a>
+                            <a href="/shows/{{ show.id }}/edit" class="edit-custom btn btn-info">Edit</a>
+                            <a href="/shows/{{ show.id }}/destroy" class="delete-custom text-white btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <form method="POST" action="shows/new">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary mt-5">Add a New Show</button>
+            </form>
+        </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    </body>
+</html>
