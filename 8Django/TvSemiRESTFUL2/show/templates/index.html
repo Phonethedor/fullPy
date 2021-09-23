@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+        <div class="wrapper p-5">
+            <h1 class="mb-5">All Shows</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Network</th>
+                    <th scope="col">Release Date</th>
+                    <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for show in lista_shows %}
+                    <tr>
+                        <td class="table-primary">{{show.id}}</td>
+                        <td class="table-primary">{{show.title}}</td>
+                        <td class="table-primary">{{show.network}}</td>
+                        <td class="table-primary">{{show.release_date}}</td>
+                        <td class="table-primary">
+                            <a href="/shows/{{ show.id }}" class="btn btn-primary">Show</a>
+                            <a href="/shows/{{ show.id }}/edit" class="edit-custom btn btn-info">Edit</a>
+                            <a href="/shows/{{ show.id }}/destroy" class="delete-custom text-white btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <form method="POST" action="shows/new">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary mt-5">Add a New Show</button>
+            </form>
+        </div>
+{% endblock %}
